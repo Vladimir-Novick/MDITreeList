@@ -9,7 +9,9 @@ How to create MDI View from Dialog forms.
 1) Create standard Dialog form
 2) Create Empty Document-View form
 3) Add dialog instance to view 
-4) insert OnInitialUpdate action to message handlers
+4) insert OnInitialUpdate action to message handlers.
+
+Example:
 
 			void CListFontView::OnInitialUpdate() 
 			{
