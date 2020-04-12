@@ -33,12 +33,30 @@ BOOL CClientWnd::OnEraseBkgnd(CDC* pDC)
 }
 
 
+ CDefaultAppFont::CDefaultAppFont() {
+	 m_instance = NULL;
+	 m_DefaultFont = NULL;
+}
+
+ CDefaultAppFont* CDefaultAppFont::GetInstance() {
+	 instance_mutex.lock();
+	 if (m_instance == NULL) {
+		 m_instance = new CDefaultAppFont();
+	 }
+	 instance_mutex.unlock();
+	 return m_instance;
+ }
+
 CFont* CDefaultAppFont::GetFont() {
-    return AppDefaultFont;
+    return m_DefaultFont;
+}
+
+CDefaultAppFont::~CDefaultAppFont() {
+
 }
 
 void CDefaultAppFont::SetFont(CFont* font) {
-    AppDefaultFont = font;
+    m_DefaultFont = font;
 	auto theApp = AfxGetApp();
 
 	POSITION posT = theApp->GetFirstDocTemplatePosition();
@@ -81,4 +99,5 @@ void CDefaultAppFont::SetFont(CFont* font) {
 	}
 }
 
-CFont* CDefaultAppFont::AppDefaultFont;
+CDefaultAppFont* CDefaultAppFont::m_instance;
+std::mutex CDefaultAppFont::instance_mutex;

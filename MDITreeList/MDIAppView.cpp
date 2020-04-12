@@ -13,6 +13,9 @@
 #include "TreeListCtrlView.h"
 #include "CAppParamsMngr.h"
 #include "TreeListCtrlFrame.h"
+#include "ListFont/ListFontDoc.h"
+#include "ListFont/ListFontView.h"
+#include "ListFont/ListFontFrame.h"
 
 #ifdef _DEBUG
 #undef DEBUG_NEW
@@ -33,6 +36,7 @@ BEGIN_MESSAGE_MAP(CMDIAppViewApp, CWinApp)
 	//{{AFX_MSG_MAP(CMDIAppViewApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(ID_FILE_OPENTREEVIEW, OnOpenTreeView)
+	ON_COMMAND(ID_FILE_NEWLIST, OnOpenListView)
 	ON_COMMAND(ID_VIEW_SETFONT, OnSetFont)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 		//    DO NOT EDIT what you see in these blocks of generated code!
@@ -53,6 +57,13 @@ void CMDIAppViewApp::OnOpenTreeView()
 {
 	auto pNewDoc = m_pDocTemplateTreeView->OpenDocumentFile(NULL);
 }
+
+void CMDIAppViewApp::OnOpenListView()
+{
+	auto pNewDoc = m_TemplateListFont->OpenDocumentFile(NULL);
+}
+
+
 
 void CMDIAppViewApp::ReadDefaultAppFont(LOGFONT& lf)
 {
@@ -148,19 +159,20 @@ void CMDIAppViewApp::SaveDefaultAppFont(LOGFONT& lf)
 }
 
 void CMDIAppViewApp::MakeDefaultAppFont() {
-	if (AppDefaultFont != NULL) {
-		delete AppDefaultFont;
-	}
+
 	LOGFONT lf;
 	memset(&lf, 0, sizeof lf);
 	ReadDefaultAppFont(lf);
-	AppDefaultFont = new CFont();
+	CFont * AppDefaultFont = new CFont();
 	AppDefaultFont->CreateFontIndirect(&lf);
 
-	CDefaultAppFont::SetFont(AppDefaultFont);
+	CDefaultAppFont::GetInstance()->SetFont(AppDefaultFont);
 }
 
 
+/// <summary>
+/// Called when [set font].
+/// </summary>
 void CMDIAppViewApp::OnSetFont()
 {
 	LOGFONT lf;
@@ -176,66 +188,19 @@ void CMDIAppViewApp::OnSetFont()
 
 		SaveDefaultAppFont(lf);
 		MakeDefaultAppFont();
-		//RedrawAllWindows();
 	}
 }
 
 
-void CMDIAppViewApp::RedrawAllWindows()
-{
-
-	CDocTemplate* pTempl;
-	CDocument* pDoc;
-	CView* pView;
-
-	auto theApp = AfxGetApp();
-
-	POSITION posT = theApp->GetFirstDocTemplatePosition();
-
-	while (posT)
-	{
-		pTempl = theApp->GetNextDocTemplate(posT);
-
-		POSITION posD = pTempl->GetFirstDocPosition();
-		while (posD)
-		{
-
-			pDoc = pTempl->GetNextDoc(posD);
-
-
-			POSITION posV = pDoc->GetFirstViewPosition();
-			while (posV)
-			{
-				pView = pDoc->GetNextView(posV);
-				//auto hWnd = pView->m_hWnd;
-				//if (hWnd != NULL) {
-				//	CRect rect;
-				//	::GetWindowRect(hWnd, rect);
-				//	WINDOWPOS wp;
-				//	wp.hwnd = hWnd;
-				//	wp.cx = rect.Width();
-				//	wp.cy = rect.Height();
-				//	wp.flags = SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER;
-				//	::SendMessage(hWnd, WM_WINDOWPOSCHANGED, 0, (LPARAM)&wp);
-				//}
-				pView->Invalidate();
-				//pView->RedrawWindow();
-			}
-		}
-	}
-}
 
 CMDIAppViewApp::CMDIAppViewApp()
 {
-	AppDefaultFont = NULL;
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
 CMDIAppViewApp::~CMDIAppViewApp() {
-	if (AppDefaultFont != NULL) {
-		delete AppDefaultFont;
-	}
+
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -291,6 +256,13 @@ BOOL CMDIAppViewApp::InitInstance()
 			RUNTIME_CLASS(CTreeListCtrlView));
 		AddDocTemplate(m_pDocTemplateTreeView);
 
+		m_TemplateListFont = new CMultiDocTemplate(
+			IDR_MYMDIATYPE,
+			RUNTIME_CLASS(CListFontDoc),
+			RUNTIME_CLASS(CListFontFrame), // custom MDI child frame
+			RUNTIME_CLASS(CListFontView));
+		AddDocTemplate(m_TemplateListFont);
+
 
 	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
@@ -301,7 +273,7 @@ BOOL CMDIAppViewApp::InitInstance()
 	// The main window has been initialized, so show and update it.
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
-
+	MakeDefaultAppFont();
 	return TRUE;
 }
 

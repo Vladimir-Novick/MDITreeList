@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+
 /// <summary>
 ///   Client Window for MDI Frame. Support erase backgrownd to custom color 
 /// </summary>
@@ -20,9 +22,14 @@ const UINT  WM_SET_DEFAULT_APP_FONT = RegisterWindowMessage(L"set-default-app-fo
 
 class CDefaultAppFont {
 protected:
-	static CFont* AppDefaultFont;
+	static std::mutex instance_mutex;
+	CDefaultAppFont();
+	 CFont* m_DefaultFont;
+	 static CDefaultAppFont * m_instance;
 public:
-	static CFont* GetFont();
-	static void SetFont(CFont* font);
+	virtual ~CDefaultAppFont();
+     static CDefaultAppFont *GetInstance() ;
+	 CFont* GetFont();
+	 void SetFont(CFont* font);
 };
 

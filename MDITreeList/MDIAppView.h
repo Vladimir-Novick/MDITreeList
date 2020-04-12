@@ -15,7 +15,7 @@ class CMDIAppViewApp : public CWinApp
 {
 protected:
 	CMultiDocTemplate* m_pDocTemplateTreeView;
-	CFont * AppDefaultFont;
+	CMultiDocTemplate* m_TemplateListFont;
 	void ReadDefaultAppFont(LOGFONT& lf);
 	void SaveDefaultAppFont(LOGFONT& lf);
 public:
@@ -37,6 +37,8 @@ public:
 	//{{AFX_MSG(CMDIAppViewApp)
 	afx_msg void OnAppAbout();
 	afx_msg void OnOpenTreeView();
+	afx_msg void OnOpenListView();
+
 	afx_msg void OnSetFont();
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code !
@@ -45,7 +47,6 @@ public:
 	virtual HINSTANCE LoadAppLangResourceDLL();
 	virtual int ExitInstance();
 	void MakeDefaultAppFont();
-	void RedrawAllWindows();
 };
 
 

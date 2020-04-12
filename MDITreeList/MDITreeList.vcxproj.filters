@@ -43,6 +43,21 @@
     <ClCompile Include="CBaseTreeCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ListFont\ListFontDoc.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFont\ListFontFrame.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFont\ListFontView.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFont\HeaderCtrlExt.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="ListFont\ListCtrlExt.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h">
@@ -90,6 +105,21 @@
     <ClInclude Include="CBaseTreeCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ListFont\ListFontDoc.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFont\ListFontFrame.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFont\ListFontView.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFont\HeaderCtrlExt.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="ListFont\ListCtrlExt.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Resource">
@@ -100,6 +130,12 @@
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{7407d18d-9aec-49e7-b297-22a4d30ae360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ListFont">
+      <UniqueIdentifier>{98ddf83a-5eca-4c0a-8fe0-4a7486a0b892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ListFont">
+      <UniqueIdentifier>{dc6502c6-95fa-41a1-9225-19aa965b80b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

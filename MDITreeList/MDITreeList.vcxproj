@@ -142,6 +142,11 @@
     <ClCompile Include="CChildFrame.cpp" />
     <ClCompile Include="CDialogAbout.cpp" />
     <ClCompile Include="CMainFrame.cpp" />
+    <ClCompile Include="ListFont\HeaderCtrlExt.cpp" />
+    <ClCompile Include="ListFont\ListCtrlExt.cpp" />
+    <ClCompile Include="ListFont\ListFontDoc.cpp" />
+    <ClCompile Include="ListFont\ListFontFrame.cpp" />
+    <ClCompile Include="ListFont\ListFontView.cpp" />
     <ClCompile Include="MDIAppView.cpp" />
     <ClCompile Include="MDIAppViewDoc.cpp" />
     <ClCompile Include="MDIAppViewView.cpp" />
@@ -163,6 +168,11 @@
     <ClInclude Include="CChildFrame.h" />
     <ClInclude Include="CDialogAbout.h" />
     <ClInclude Include="CMainFrame.h" />
+    <ClInclude Include="ListFont\HeaderCtrlExt.h" />
+    <ClInclude Include="ListFont\ListCtrlExt.h" />
+    <ClInclude Include="ListFont\ListFontDoc.h" />
+    <ClInclude Include="ListFont\ListFontFrame.h" />
+    <ClInclude Include="ListFont\ListFontView.h" />
     <ClInclude Include="MDIAppView.h" />
     <ClInclude Include="MDIAppViewDoc.h" />
     <ClInclude Include="MDIAppViewView.h" />
