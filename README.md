@@ -2,7 +2,28 @@
 
 MDI with tree list view . Custom draw a dynamically created CListCtrl. Auto-resize CList Control
 
-#  Auto-resize CList Control
+##  Create MDI View from Dialog forms
+
+How to create MDI View from Dialog forms.
+
+1) Create standard Dialog form
+2) Create Empty Document-View form
+3) Add dialog instance to view 
+4) insert OnInitialUpdate action to message handlers
+
+			void CListFontView::OnInitialUpdate() 
+			{
+				CFormView::OnInitialUpdate();
+				GetParentFrame()->RecalcLayout();
+				ResizeParentToFit();
+				m_ListCtrl.SubclassDlgItem(IDC_LIST, this);
+				m_ListCtrl.SetNoOfLinesPerRow(2);
+				m_ListCtrl.SetNoOfColumns(3);
+				m_ListCtrl.SetNoOfRows(2);
+				m_ListCtrl.OnInitialUpdate();
+			}
+
+##  Auto-resize CList Control
 
 			void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 			{
