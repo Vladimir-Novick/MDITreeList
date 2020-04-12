@@ -1,11 +1,43 @@
 # MDITreeList
 
-MDI with tree list view . Custom draw a dynamically created CListCtrl
+MDI with tree list view . Custom draw a dynamically created CListCtrl. Auto-resize CList Control
+
+#  Auto-resize CList Control
+
+			void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
+			{
+				CListCtrl::OnSize(nType, cx, cy);
+
+				double currentSize = 0;
+
+				CHeaderCtrl* pHeader = NULL;
+				pHeader = GetHeaderCtrl();
+
+				if (pHeader->m_hWnd != NULL) {
+
+					for (int i = 0; i < pHeader->GetItemCount(); i++)
+					{
+						int nWidth = GetColumnWidth(i);
+						currentSize += nWidth;
+					}
+
+					double m = cx / currentSize;
+
+					for (int i = 0; i < pHeader->GetItemCount(); i++)
+					{
+						int nWidth = GetColumnWidth(i);
+						double  d = nWidth *= m;
+						DWORD w = d;
+						SetColumnWidth(i, w);
+					}
+				}
+			}
 
 #  Design Components Library ( NDC )
 
 Components for MFC WinForm help developers execute Design with modular and customizable UI components. 
 These components enable a reliable development workflow to build beautiful and functional user experiences for C++ MFC Desktop application.
+
 
 ## Custom MDI Frame color
 

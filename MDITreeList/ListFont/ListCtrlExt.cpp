@@ -221,8 +221,6 @@ void CListCtrlExt::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemSt
 }
 
 
-
-
 void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 {
 	CListCtrl::OnSize(nType, cx, cy);
@@ -237,9 +235,7 @@ void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 		for (int i = 0; i < pHeader->GetItemCount(); i++)
 		{
 			int nWidth = GetColumnWidth(i);
-
 			currentSize += nWidth;
-
 		}
 
 		double m = cx / currentSize;
@@ -247,15 +243,10 @@ void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 		for (int i = 0; i < pHeader->GetItemCount(); i++)
 		{
 			int nWidth = GetColumnWidth(i);
-
-
 			double  d = nWidth *= m;
 			DWORD w = d;
 			SetColumnWidth(i, w);
-
-
 		}
-
 	}
 
 	// TODO: Add your message handler code here
