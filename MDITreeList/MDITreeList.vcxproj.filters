@@ -58,6 +58,12 @@
     <ClCompile Include="ListFont\ListCtrlExt.cpp">
       <Filter>Source Files\ListFont</Filter>
     </ClCompile>
+    <ClCompile Include="CDlgSelectFont.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="CListForm.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h">
@@ -118,6 +124,12 @@
       <Filter>Header Files\ListFont</Filter>
     </ClInclude>
     <ClInclude Include="ListFont\ListCtrlExt.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="CDlgSelectFont.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="CListForm.h">
       <Filter>Header Files\ListFont</Filter>
     </ClInclude>
   </ItemGroup>

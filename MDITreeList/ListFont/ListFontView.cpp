@@ -62,7 +62,6 @@ BOOL CListFontView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
-
 	return CFormView::PreCreateWindow(cs);
 }
 
@@ -122,12 +121,11 @@ CListFontDoc* CListFontView::GetDocument() // non-debug version is inline
 void CListFontView::OnInitialUpdate() 
 {
 	CFormView::OnInitialUpdate();
-	GetParentFrame()->RecalcLayout();
-	ResizeParentToFit();
+	SetScrollSizes(MM_TEXT, CSize(0, 0)); // Hide Scrollbars in CFormView 
 	m_ListCtrl.SubclassDlgItem(IDC_LIST, this);
-	m_ListCtrl.SetNoOfLinesPerRow(2);
 	m_ListCtrl.SetNoOfColumns(3);
 	m_ListCtrl.SetNoOfRows(2);
+	m_ListCtrl.ShowScrollBar(SB_BOTH, FALSE);
 	m_ListCtrl.OnInitialUpdate();
 	// TODO: Add your specialized code here and/or call the base class
 	

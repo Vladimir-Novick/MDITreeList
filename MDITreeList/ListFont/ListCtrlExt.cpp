@@ -212,6 +212,7 @@ void CListCtrlExt::OnInitialUpdate()
 		
 		m_HeaderCtrl.SetItem(i,&hdItem);
 	}
+
 }
 
 void CListCtrlExt::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct) 

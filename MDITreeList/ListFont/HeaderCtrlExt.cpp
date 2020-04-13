@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "HeaderCtrlExt.h"
+#include "..\..\NDC\ClientWnd.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -29,6 +30,8 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CHeaderCtrlExt message handlers
+
+
 
 void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) 
 {
@@ -58,3 +61,5 @@ void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
    pDC->SelectStockObject(SYSTEM_FONT);
 }
+
+
