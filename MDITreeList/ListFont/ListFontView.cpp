@@ -50,7 +50,10 @@ CListFontView::CListFontView()
 void CListFontView::OnSize(UINT nType, int cx, int cy)
 {
 	CFormView::OnSize(nType, cx, cy);
-	// TODO: Add your message handler code here
+	if (m_ListCtrl.m_hWnd != NULL) {
+		m_ListCtrl.SetWindowPos(this, 0, 0, cx, cy, SWP_NOZORDER);
+	}
+
 }
 
 
@@ -68,12 +71,7 @@ BOOL CListFontView::PreCreateWindow(CREATESTRUCT& cs)
 /////////////////////////////////////////////////////////////////////////////
 // CListFontView drawing
 
-void CListFontView::OnDraw(CDC* pDC)
-{
-	CListFontDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	// TODO: add draw code for native data here
-}
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CListFontView printing
@@ -126,8 +124,12 @@ void CListFontView::OnInitialUpdate()
 	m_ListCtrl.SetNoOfColumns(3);
 	m_ListCtrl.SetNoOfRows(2);
 	m_ListCtrl.ShowScrollBar(SB_BOTH, FALSE);
+	RECT rect;
+	GetClientRect(&rect);
+	m_ListCtrl.SetWindowPos(this, 0, 0, rect.right-rect.left, rect.bottom-rect.top, SWP_NOZORDER);
 	m_ListCtrl.OnInitialUpdate();
-	// TODO: Add your specialized code here and/or call the base class
+
+	
 	
 }
 

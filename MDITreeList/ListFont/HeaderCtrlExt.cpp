@@ -25,6 +25,7 @@ CHeaderCtrlExt::~CHeaderCtrlExt()
 
 BEGIN_MESSAGE_MAP(CHeaderCtrlExt, CHeaderCtrl)
 	//{{AFX_MSG_MAP(CHeaderCtrlExt)
+	ON_MESSAGE(HDM_LAYOUT, OnLayout)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -32,6 +33,36 @@ END_MESSAGE_MAP()
 // CHeaderCtrlExt message handlers
 
 
+LRESULT CHeaderCtrlExt::OnLayout(WPARAM, LPARAM lParam) {
+    LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
+
+    //*** The table list rectangle
+    RECT* pRect = pHL->prc;
+
+    //*** The table header rectangle
+    WINDOWPOS* pWPos = pHL->pwpos;
+
+
+    CDC* pDC = GetDC();
+    auto	pFont = CDefaultAppFont::GetInstance()->GetFont();
+    CFont* pOldFont = pDC->SelectObject(pFont);
+    TEXTMETRIC tm;
+    GetTextMetrics(pDC->m_hDC, &tm);
+    pDC->SelectObject(pOldFont);
+    ReleaseDC(pDC);
+
+    UINT newHeight = tm.tmHeight * 1.2;
+
+
+    int nRet = CHeaderCtrl::DefWindowProc(HDM_LAYOUT, 0, lParam);
+
+    pWPos->cy = newHeight * 2;
+
+    //*** Decreases the table list height on the table header height
+    pRect->top = newHeight * 2;
+
+    return nRet;
+}  // OnLayout
 
 void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) 
 {
@@ -49,8 +80,9 @@ void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	CDC* pDC;
 	pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-	pDC->SelectObject(GetStockObject(DEFAULT_GUI_FONT));
-
+    auto	pFont = CDefaultAppFont::GetInstance()->GetFont();
+    CFont* pOldFont = pDC->SelectObject(pFont);
+	
    ::DrawFrameControl(lpDrawItemStruct->hDC, 
       &lpDrawItemStruct->rcItem, DFC_BUTTON, DFCS_BUTTONPUSH);
 
@@ -59,7 +91,7 @@ void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
    ::DrawText(lpDrawItemStruct->hDC, lpBuffer, _tcslen(lpBuffer),
       &lpDrawItemStruct->rcItem, uFormat);
 
-   pDC->SelectStockObject(SYSTEM_FONT);
+   pDC->SelectObject(pOldFont);
 }
 
 

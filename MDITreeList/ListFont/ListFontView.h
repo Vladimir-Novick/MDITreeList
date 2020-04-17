@@ -20,7 +20,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CListFontView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
+	
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnInitialUpdate();
 	protected:

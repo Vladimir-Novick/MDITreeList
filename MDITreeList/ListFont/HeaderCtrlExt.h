@@ -36,6 +36,7 @@ public:
 	// Generated message map functions
 protected:
 	//{{AFX_MSG(CHeaderCtrlExt)
+	afx_msg LRESULT OnLayout(WPARAM wparam, LPARAM lparam);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()
