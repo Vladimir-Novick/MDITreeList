@@ -181,3 +181,27 @@ Constructor:
 				hBitmapAbout = NULL;
 			}
 
+#  Measuring size text with DrawTextEx function
+
+		   CFont* oldFont;
+           CDC * cdc = GetDC();
+           oldFont = cdc->SelectObject(font);
+
+           auto format = DT_LEFT | DT_EDITCONTROL | DT_WORDBREAK | DT_CALCRECT;
+           RECT cellRect ;
+
+           DRAWTEXTPARAMS lpDTParams;
+           lpDTParams.cbSize = sizeof(lpDTParams);
+           lpDTParams.iLeftMargin = 1;
+           lpDTParams.iRightMargin = 1;
+           lpDTParams.iTabLength = 4;
+           lpDTParams.uiLengthDrawn = 0;
+
+           cellRect.right = colWidth;
+           cellRect.bottom = 0;
+           cellRect.top = 0;
+           cellRect.left = 0;
+
+           cdc->DrawTextEx(text, &cellRect, format, &lpDTParams);
+           
+           cdc->SelectObject(oldFont);
