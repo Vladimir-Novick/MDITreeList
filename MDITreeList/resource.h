@@ -30,11 +30,12 @@
 #define IDC_BUTTON_LIST_ITEMS           1009
 #define IDC_LIST_HEADER_FONT_NAME2      1010
 #define IDC_LIST_ITEMS_FONT_NAME2       1011
-#define ID_VIEW_SETFONT                 32771
-#define ID_VIEW_SETFONT32772            32772
+#define ID_TREE_ITEM_SETFONTS                 32771
+#define ID_TREE_ITEM_SETFONTS32772            32772
 #define ID_HEADER                       32773
 #define ID_FILE_OPENTREEVIEW            32774
 #define ID_FILE_NEWLIST                 32775
+#define ID_TREE_HEADER_SETFONTS			32776
 
 // Next default values for new objects
 // 
@@ -42,7 +43,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        144
-#define _APS_NEXT_COMMAND_VALUE         32776
+#define _APS_NEXT_COMMAND_VALUE         32777
 #define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

@@ -34,6 +34,7 @@ public:
 
 	CFont* GetFont(string fontName);
 	void SetFont(string fontName, CFont* font);
+	void SetFont(string fontName, LOGFONT & font);
 
 	UINT GetItemHeight(string fontName);
 	void SetItemHeight(string fontName, UINT height);

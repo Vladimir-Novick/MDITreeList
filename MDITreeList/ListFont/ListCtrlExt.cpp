@@ -125,23 +125,9 @@ LRESULT CListCtrlExt::OnSetFont(WPARAM wParam, LPARAM lParam)
 
 void CListCtrlExt::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct) 
 {
-	// Get the LOGFONT for the current font.
-	LOGFONT lf;
-	::ZeroMemory(&lf, sizeof(lf));
 
-	CFont *pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_FONT_NAME);
-	ASSERT_VALID(pFont);
-	
-	if (pFont) 
-		VERIFY(pFont->GetLogFont(&lf));
-
-	int nAdj(4) ;
-	m_nLinesPerRow = max(m_nLinesPerRow, 1);
-
-	if (lf.lfHeight < 0) 
-		lpMeasureItemStruct->itemHeight = ((-lf.lfHeight+nAdj) * (m_nLinesPerRow));
-	else 
-		lpMeasureItemStruct->itemHeight = ((lf.lfHeight+nAdj) * (m_nLinesPerRow));
+	auto height  = CDefaultAppFont::GetInstance()->GetItemHeight(TREE_FONT_NAME);
+		lpMeasureItemStruct->itemHeight = height * (m_nLinesPerRow);
 }
 
 

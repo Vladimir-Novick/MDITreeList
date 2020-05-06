@@ -29,6 +29,14 @@ CFont* CDefaultAppFont::GetFont(string fontName) {
 	return fonts[fontName];
 }
 
+
+
+void CDefaultAppFont::SetFont(string fontName, LOGFONT& lf) {
+	CFont* font = new CFont();
+	font->CreateFontIndirect(&lf);
+	CDefaultAppFont::SetFont(fontName, font);
+}
+
 void CDefaultAppFont::SetFont(string fontName, CFont* pFont) {
 	CFont* oldFont = fonts[fontName];
 	if (oldFont != NULL) {

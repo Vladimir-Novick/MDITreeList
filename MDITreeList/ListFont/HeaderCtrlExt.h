@@ -18,7 +18,6 @@ public:
 
 // Attributes
 public:
-	CFont	m_NewHeaderFont;
 	virtual void DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct);
 
 // Operations

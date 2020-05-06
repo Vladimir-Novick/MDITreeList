@@ -10,8 +10,7 @@ using namespace std;
 class CAppParamsMngr
 {
 private:
-	string paramsData;
-	string filePathAndName;
+	CString filePathAndName;
 	stringstream stringBuilder;
 	map<string, string> m_Values;
 public:
@@ -19,13 +18,13 @@ public:
 		READ,
 		WRITE
 	};
-	CAppParamsMngr(string fileParam, Operation type);
+	CAppParamsMngr(CString fileParam, Operation type);
 	virtual ~CAppParamsMngr();
 
-	CString GetAppParameter(string paramName, string group_name,
+	CString GetAppParameter(CString paramName, CString group_name,
 		CString defaultValue);
 
-	void SetAppParameter(string paramName, string group_name,
+	void SetAppParameter(CString paramName, CString group_name,
 		CString newValue);
 private:
 	CAppParamsMngr::Operation currentOperationType;

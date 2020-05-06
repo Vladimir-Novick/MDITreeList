@@ -3,8 +3,10 @@
 
 
 #include "stdafx.h" 
+#include <string>
 #include "resource.h" 
 
+using namespace std;
 
 /////////////////////////////////////////////////////////////////////////////
 // CMDIAppViewApp:
@@ -16,8 +18,8 @@ class CMDIAppViewApp : public CWinApp
 protected:
 	CMultiDocTemplate* m_pDocTemplateTreeView;
 	CMultiDocTemplate* m_TemplateListFont;
-	void ReadDefaultAppFont(LOGFONT& lf);
-	void SaveDefaultAppFont(LOGFONT& lf);
+	void ReadDefaultAppFont(const string &paramName, LOGFONT & lf);
+	void SaveDefaultAppFont(const string &paramName, LOGFONT & lf);
 public:
 	CMDIAppViewApp();
 	virtual ~CMDIAppViewApp();
@@ -40,6 +42,7 @@ public:
 	afx_msg void OnOpenListView();
 
 	afx_msg void OnSetFont();
+	afx_msg void OnSetHeaderFont();
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code !
 	//}}AFX_MSG

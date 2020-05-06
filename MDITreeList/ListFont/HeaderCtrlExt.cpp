@@ -44,23 +44,14 @@ LRESULT CHeaderCtrlExt::OnLayout(WPARAM, LPARAM lParam) {
     WINDOWPOS* pWPos = pHL->pwpos;
 
 
-    CDC* pDC = GetDC();
-    auto	pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_HEADER_FONT_NAME);
-    CFont* pOldFont = pDC->SelectObject(pFont);
-    TEXTMETRIC tm;
-    GetTextMetrics(pDC->m_hDC, &tm);
-    pDC->SelectObject(pOldFont);
-    ReleaseDC(pDC);
-
-    UINT newHeight = tm.tmHeight * 1.2;
-
+    UINT newHeight = CDefaultAppFont::GetInstance()->GetItemHeight(TREE_HEADER_FONT_NAME);
 
     int nRet = CHeaderCtrl::DefWindowProc(HDM_LAYOUT, 0, lParam);
 
-    pWPos->cy = newHeight * 2;
+    pWPos->cy = newHeight ;
 
     //*** Decreases the table list height on the table header height
-    pRect->top = newHeight * 2;
+    pRect->top = newHeight;
 
     return nRet;
 }  // OnLayout

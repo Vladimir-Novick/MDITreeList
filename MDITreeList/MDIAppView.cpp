@@ -38,7 +38,8 @@ BEGIN_MESSAGE_MAP(CMDIAppViewApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
 	ON_COMMAND(ID_FILE_OPENTREEVIEW, OnOpenTreeView)
 	ON_COMMAND(ID_FILE_NEWLIST, OnOpenListView)
-	ON_COMMAND(ID_VIEW_SETFONT, OnSetFont)
+	ON_COMMAND(ID_TREE_ITEM_SETFONTS, OnSetFont)
+	ON_COMMAND(ID_TREE_HEADER_SETFONTS, OnSetHeaderFont)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 		//    DO NOT EDIT what you see in these blocks of generated code!
 	//}}AFX_MSG_MAP
@@ -66,9 +67,10 @@ void CMDIAppViewApp::OnOpenListView()
 
 
 
-void CMDIAppViewApp::ReadDefaultAppFont(LOGFONT& lf)
+void CMDIAppViewApp::ReadDefaultAppFont(const string &paramName, LOGFONT & lf)
 {
 	HGDIOBJ gui_font = ::GetStockObject(DEFAULT_GUI_FONT);
+
 
 	if (gui_font == NULL) {
 		gui_font = ::GetStockObject(SYSTEM_FONT);
@@ -86,88 +88,90 @@ void CMDIAppViewApp::ReadDefaultAppFont(LOGFONT& lf)
 	CString strTemp;
 	CString strParam;
 
-	strParam = appParamsMngr.GetAppParameter("FontName", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("FontName", paramName.c_str(),
 		 defaultLogFont.lfFaceName);
 	lstrcpy(lf.lfFaceName, strParam);
 
 	strTemp.Format(L"%d", defaultLogFont.lfWeight);
-	strParam = appParamsMngr.GetAppParameter("Weight", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("Weight",  paramName.c_str(),
 		 strTemp);
 	lf.lfWeight = _ttol(strParam);
 
 	strTemp.Format(L"%d", defaultLogFont.lfItalic);
-	strParam = appParamsMngr.GetAppParameter("Italic", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("Italic",  paramName.c_str(),
 		 strTemp);
 	lf.lfItalic = _ttoi(strParam);
 
 	strTemp.Format(L"%d", defaultLogFont.lfUnderline);
-	strParam = appParamsMngr.GetAppParameter("Underline", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("Underline",  paramName.c_str(),
 		 strTemp);
 	lf.lfUnderline = _ttoi(strParam);
 
 	strTemp.Format(L"%d", defaultLogFont.lfStrikeOut);
-	strParam = appParamsMngr.GetAppParameter("StrikeOut", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("StrikeOut",  paramName.c_str(),
 		 strTemp);
 	lf.lfStrikeOut = _ttoi(strParam);
 
 	strTemp.Format(L"%d", defaultLogFont.lfHeight);
-	strParam = appParamsMngr.GetAppParameter("Height", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("Height",  paramName.c_str(),
 		 strTemp);
 	lf.lfHeight = _ttoi(strParam);
 
 	strTemp.Format(L"%d", defaultLogFont.lfCharSet);
-	strParam = appParamsMngr.GetAppParameter("CharSet", "AppDefaultFont",
+	strParam = appParamsMngr.GetAppParameter("CharSet",  paramName.c_str(),
 		 strTemp);
 	lf.lfCharSet = _ttoi(strParam);
 
 }
 
-void CMDIAppViewApp::SaveDefaultAppFont(LOGFONT& lf)
+void CMDIAppViewApp::SaveDefaultAppFont(const string &paramName, LOGFONT& lf)
 {
 	CAppParamsMngr appParamsMngr("DefaultParams", CAppParamsMngr::WRITE);
 	CString strTemp;
 	CString strParam;
 
-	appParamsMngr.SetAppParameter("FontName", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("FontName",  paramName.c_str(),
 		lf.lfFaceName );
 
 	strTemp.Format(L"%d", lf.lfWeight);
-	appParamsMngr.SetAppParameter("Weight", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("Weight",  paramName.c_str(),
 		strTemp );
 
 
 	strTemp.Format(L"%d", lf.lfItalic);
-	appParamsMngr.SetAppParameter("Italic", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("Italic",  paramName.c_str(),
 		strTemp );
 
 
 	strTemp.Format(L"%d", lf.lfUnderline);
-	appParamsMngr.SetAppParameter("Underline", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("Underline",  paramName.c_str(),
 		strTemp );
 
 
 	strTemp.Format(L"%d", lf.lfStrikeOut);
-	appParamsMngr.SetAppParameter("StrikeOut", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("StrikeOut",  paramName.c_str(),
 		strTemp );
 
 	strTemp.Format(L"%d", lf.lfHeight);
-	appParamsMngr.SetAppParameter("Height", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("Height",  paramName.c_str(),
 		strTemp );
 
 	strTemp.Format(L"%d", lf.lfCharSet);
-	appParamsMngr.SetAppParameter("CharSet", "AppDefaultFont",
+	appParamsMngr.SetAppParameter("CharSet",  paramName.c_str(),
 		strTemp );
 }
 
 void CMDIAppViewApp::MakeDefaultAppFont() {
-
-	LOGFONT lf;
-	memset(&lf, 0, sizeof lf);
-	ReadDefaultAppFont(lf);
-	CFont * AppDefaultFont = new CFont();
-	AppDefaultFont->CreateFontIndirect(&lf);
-
-	CDefaultAppFont::GetInstance()->SetFont(TREE_FONT_NAME,AppDefaultFont);
+	{
+		LOGFONT lf = {};
+		ReadDefaultAppFont(TREE_FONT_NAME, lf);
+		CDefaultAppFont::GetInstance()->SetFont(TREE_FONT_NAME, lf);
+	}
+	{
+		LOGFONT lf = {};
+		ReadDefaultAppFont(TREE_HEADER_FONT_NAME, lf);
+		CDefaultAppFont::GetInstance()->SetFont(TREE_HEADER_FONT_NAME, lf);
+	}
 }
 
 
@@ -179,7 +183,7 @@ void CMDIAppViewApp::OnSetFont()
 	LOGFONT lf;
 	memset(&lf, 0, sizeof lf);
 
-	ReadDefaultAppFont(lf);
+	ReadDefaultAppFont(TREE_FONT_NAME,lf);
 
 	CFontDialog fontDialog(&lf, CF_SCREENFONTS);
 	if (fontDialog.DoModal() == IDOK)
@@ -187,11 +191,32 @@ void CMDIAppViewApp::OnSetFont()
 		memset(&lf, 0, sizeof lf);
 		fontDialog.GetCurrentFont(&lf);
 
-		SaveDefaultAppFont(lf);
+		SaveDefaultAppFont(TREE_FONT_NAME,lf);
 		MakeDefaultAppFont();
 		CDefaultAppFont::GetInstance()->RedrawAllWindow();
 	}
 }
+
+
+void CMDIAppViewApp::OnSetHeaderFont()
+{
+	LOGFONT lf;
+	memset(&lf, 0, sizeof lf);
+
+	ReadDefaultAppFont(TREE_HEADER_FONT_NAME,lf);
+
+	CFontDialog fontDialog(&lf, CF_SCREENFONTS);
+	if (fontDialog.DoModal() == IDOK)
+	{
+		memset(&lf, 0, sizeof lf);
+		fontDialog.GetCurrentFont(&lf);
+
+		SaveDefaultAppFont(TREE_HEADER_FONT_NAME,lf);
+		MakeDefaultAppFont();
+		CDefaultAppFont::GetInstance()->RedrawAllWindow();
+	}
+}
+
 
 
 

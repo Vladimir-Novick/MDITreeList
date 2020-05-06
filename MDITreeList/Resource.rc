@@ -182,7 +182,11 @@ BEGIN
     END
     POPUP "Properties"
     BEGIN
-        MENUITEM "List Fonts",                  ID_VIEW_SETFONT
+        POPUP "Tree & List Fonts"
+        BEGIN
+            MENUITEM "Headers", ID_TREE_HEADER_SETFONTS
+            MENUITEM "Items",   ID_TREE_ITEM_SETFONTS
+        END
     END
     POPUP "&Help"
     BEGIN
@@ -226,7 +230,11 @@ BEGIN
     END
     POPUP "Properties"
     BEGIN
-        MENUITEM "List Fonts",                  ID_VIEW_SETFONT
+        POPUP "Tree & List Fonts"
+        BEGIN
+            MENUITEM "Headers", ID_TREE_HEADER_SETFONTS
+            MENUITEM "Items",   ID_TREE_ITEM_SETFONTS
+        END
     END
     POPUP "&Help"
     BEGIN
@@ -278,7 +286,11 @@ BEGIN
     END
     POPUP "Properties"
     BEGIN
-        MENUITEM "List Fonts",                  ID_VIEW_SETFONT
+         POPUP "Tree & List Fonts"
+         BEGIN
+                MENUITEM "Headers", ID_TREE_HEADER_SETFONTS
+                MENUITEM "Items", ID_TREE_ITEM_SETFONTS
+         END
     END
     POPUP "&Help"
     BEGIN
