@@ -16,6 +16,7 @@
 #include "ListFont/ListFontDoc.h"
 #include "ListFont/ListFontView.h"
 #include "ListFont/ListFontFrame.h"
+#include "..\NDC\CDefaultAppFont.h"
 
 #ifdef _DEBUG
 #undef DEBUG_NEW
@@ -166,7 +167,7 @@ void CMDIAppViewApp::MakeDefaultAppFont() {
 	CFont * AppDefaultFont = new CFont();
 	AppDefaultFont->CreateFontIndirect(&lf);
 
-	CDefaultAppFont::GetInstance()->SetFont(AppDefaultFont);
+	CDefaultAppFont::GetInstance()->SetFont(TREE_FONT_NAME,AppDefaultFont);
 }
 
 
@@ -188,6 +189,7 @@ void CMDIAppViewApp::OnSetFont()
 
 		SaveDefaultAppFont(lf);
 		MakeDefaultAppFont();
+		CDefaultAppFont::GetInstance()->RedrawAllWindow();
 	}
 }
 

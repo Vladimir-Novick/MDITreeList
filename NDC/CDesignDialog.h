@@ -42,6 +42,5 @@ public:
 
 	static BOOL __stdcall  ModifyChildFont(HWND hwnd, LPARAM);
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-	bool FindPoint(RECT& rect, CPoint& point)
 };
 

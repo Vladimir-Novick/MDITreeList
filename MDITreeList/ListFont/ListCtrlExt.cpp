@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ListCtrlExt.h"
 #include "..\..\NDC\ClientWnd.h"
+#include "..\..\NDC\CDefaultAppFont.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -93,7 +94,7 @@ void CListCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		UINT		uFormat    = DT_LEFT ;
 
 
-		CFont* pFont = CDefaultAppFont::GetInstance()->GetFont();
+		CFont* pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_FONT_NAME);
 		CDC cDC;
 		cDC.Attach(lpDrawItemStruct->hDC);
 		auto oldFont = cDC.SelectObject(pFont);
@@ -128,7 +129,7 @@ void CListCtrlExt::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 	LOGFONT lf;
 	::ZeroMemory(&lf, sizeof(lf));
 
-	CFont *pFont = CDefaultAppFont::GetInstance()->GetFont();
+	CFont *pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_FONT_NAME);
 	ASSERT_VALID(pFont);
 	
 	if (pFont) 

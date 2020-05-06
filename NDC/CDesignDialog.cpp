@@ -84,13 +84,6 @@ BOOL CDesignDialog::PreCreateWindow(CREATESTRUCT& cs)
 	return CDialog::PreCreateWindow(cs);
 }
 
-bool CDesignDialog::FindPoint(RECT& rect, CPoint& point)
-{
-	if (point.x > rect.left & point.x < rect.right &
-		point.y > rect.top & point.y < rect.bottom)
-		return true;
-	return false;
-}
 
 BOOL __stdcall  CDesignDialog::ModifyChildFont(HWND hwnd, LPARAM)
 {

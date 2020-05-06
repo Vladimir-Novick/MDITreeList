@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "HeaderCtrlExt.h"
 #include "..\..\NDC\ClientWnd.h"
+#include "..\..\NDC\CDefaultAppFont.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,7 +45,7 @@ LRESULT CHeaderCtrlExt::OnLayout(WPARAM, LPARAM lParam) {
 
 
     CDC* pDC = GetDC();
-    auto	pFont = CDefaultAppFont::GetInstance()->GetFont();
+    auto	pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_HEADER_FONT_NAME);
     CFont* pOldFont = pDC->SelectObject(pFont);
     TEXTMETRIC tm;
     GetTextMetrics(pDC->m_hDC, &tm);
@@ -80,7 +81,7 @@ void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	CDC* pDC;
 	pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-    auto	pFont = CDefaultAppFont::GetInstance()->GetFont();
+    auto	pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_HEADER_FONT_NAME);
     CFont* pOldFont = pDC->SelectObject(pFont);
 	
    ::DrawFrameControl(lpDrawItemStruct->hDC, 

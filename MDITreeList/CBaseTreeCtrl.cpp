@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "CBaseTreeCtrl.h"
+#include "..\NDC\CDefaultAppFont.h"
 
 BEGIN_MESSAGE_MAP(CBaseTreeCtrl, CTreeCtrl)
 	ON_MESSAGE(TVM_INSERTITEM, OnInsertItem)
@@ -92,7 +93,7 @@ void CBaseTreeCtrl::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 void CBaseTreeCtrl::MakeItemHeight()
 {
 	CDC* pDC = GetDC();
-	auto	pFont = CDefaultAppFont::GetInstance()->GetFont();
+	auto	pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_FONT_NAME);
 		CFont* pOldFont = pDC->SelectObject(pFont);
 		TEXTMETRIC tm;
 		GetTextMetrics(pDC->m_hDC, &tm);
@@ -144,7 +145,7 @@ void CBaseTreeCtrl::OnParentNotify(UINT message, LPARAM lParam)
 
 void CBaseTreeCtrl::OnWindowPosChanging(WINDOWPOS* lpwndpos)
 {
-	CFont* font = CDefaultAppFont::GetInstance()->GetFont();
+	CFont* font = CDefaultAppFont::GetInstance()->GetFont(TREE_FONT_NAME);
 	CTreeCtrl::SetFont(font);
 	CTreeCtrl::OnWindowPosChanging(lpwndpos);
 

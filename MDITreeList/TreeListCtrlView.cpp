@@ -150,10 +150,5 @@ void CTreeListCtrlView::OnHeader()
 
 LRESULT CTreeListCtrlView::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (message == WM_SET_DEFAULT_APP_FONT)
-	{
-		Invalidate();
-		return 0;
-	}
 	return CTreeListView::DefWindowProc(message, wParam, lParam);
 }
