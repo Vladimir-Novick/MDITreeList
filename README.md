@@ -205,3 +205,4 @@ Constructor:
            cdc->DrawTextEx(text, &cellRect, format, &lpDTParams);
            
            cdc->SelectObject(oldFont);
+		   ReleaseDC(cdc);

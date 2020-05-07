@@ -35,28 +35,75 @@ END_MESSAGE_MAP()
 
 
 LRESULT CHeaderCtrlExt::OnLayout(WPARAM, LPARAM lParam) {
-    LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
+	LPHDLAYOUT pHL = reinterpret_cast<LPHDLAYOUT>(lParam);
 
-    //*** The table list rectangle
-    RECT* pRect = pHL->prc;
+	//*** The table list rectangle
+	RECT* pRect = pHL->prc;
 
-    //*** The table header rectangle
-    WINDOWPOS* pWPos = pHL->pwpos;
+	//*** The table header rectangle
+	WINDOWPOS* pWPos = pHL->pwpos;
 
+	//------------------
+	CFont* font = CDefaultAppFont::GetInstance()->GetFont(TREE_FONT_NAME);
+	int rowHeight = CDefaultAppFont::GetInstance()->GetItemHeight(TREE_FONT_NAME);
+	CFont* oldFont;
+	CDC* cdc = GetDC();
+	oldFont = cdc->SelectObject(font);
+	/// /// 
+	auto format = DT_LEFT | DT_EDITCONTROL | DT_WORDBREAK | DT_CALCRECT;
+	RECT cellRect;
 
-    UINT newHeight = CDefaultAppFont::GetInstance()->GetItemHeight(TREE_HEADER_FONT_NAME);
+	DRAWTEXTPARAMS lpDTParams;
+	lpDTParams.cbSize = sizeof(lpDTParams);
+	lpDTParams.iLeftMargin = 1;
+	lpDTParams.iRightMargin = 1;
+	lpDTParams.iTabLength = 4;
+	lpDTParams.uiLengthDrawn = 0;
 
-    int nRet = CHeaderCtrl::DefWindowProc(HDM_LAYOUT, 0, lParam);
+	int maxHeight = rowHeight;
 
-    pWPos->cy = newHeight ;
+	HDITEM hdi;
+	enum
+	{
+		sizeOfBuffer = 256
+	};
+	TCHAR lpBuffer[sizeOfBuffer];
+	bool fFound = false;
 
-    //*** Decreases the table list height on the table header height
-    pRect->top = newHeight;
+	hdi.mask = HDI_TEXT | HDI_WIDTH;
+	hdi.pszText = lpBuffer;
+	hdi.cchTextMax = sizeOfBuffer;
+	int itemCount = GetItemCount();
 
-    return nRet;
+	for (int col = 0; col < itemCount; col++) {
+		GetItem(col, &hdi);
+		int colWidth = hdi.cxy;
+		cellRect.right = colWidth;
+		cellRect.bottom = 0;
+		cellRect.top = 0;
+		cellRect.left = 0;
+		auto text = hdi.pszText;
+		if (text != NULL) {
+			cdc->DrawTextEx(text, &cellRect, format, &lpDTParams);
+			maxHeight = max(maxHeight, cellRect.bottom);
+		}
+	}
+
+	cdc->SelectObject(oldFont);
+	ReleaseDC(cdc);
+	//------------------
+
+	int nRet = CHeaderCtrl::DefWindowProc(HDM_LAYOUT, 0, lParam);
+
+	pWPos->cy = maxHeight;
+
+	//*** Decreases the table list height on the table header height
+	pRect->top = maxHeight;
+
+	return nRet;
 }  // OnLayout
 
-void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) 
+void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
 	ASSERT(lpDrawItemStruct->CtlType == ODT_HEADER);
 
@@ -65,25 +112,25 @@ void CHeaderCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 	hdi.mask = HDI_TEXT;
 	hdi.pszText = lpBuffer;
-	hdi.cchTextMax = sizeof(lpBuffer) ;
+	hdi.cchTextMax = sizeof(lpBuffer);
 
 	GetItem(lpDrawItemStruct->itemID, &hdi);
 
 	CDC* pDC;
 	pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-    auto	pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_HEADER_FONT_NAME);
-    CFont* pOldFont = pDC->SelectObject(pFont);
-	
-   ::DrawFrameControl(lpDrawItemStruct->hDC, 
-      &lpDrawItemStruct->rcItem, DFC_BUTTON, DFCS_BUTTONPUSH);
+	auto	pFont = CDefaultAppFont::GetInstance()->GetFont(TREE_HEADER_FONT_NAME);
+	CFont* pOldFont = pDC->SelectObject(pFont);
+
+	::DrawFrameControl(lpDrawItemStruct->hDC,
+		&lpDrawItemStruct->rcItem, DFC_BUTTON, DFCS_BUTTONPUSH);
 
 	UINT uFormat = DT_CENTER;
 
-   ::DrawText(lpDrawItemStruct->hDC, lpBuffer, _tcslen(lpBuffer),
-      &lpDrawItemStruct->rcItem, uFormat);
+	::DrawText(lpDrawItemStruct->hDC, lpBuffer, _tcslen(lpBuffer),
+		&lpDrawItemStruct->rcItem, uFormat);
 
-   pDC->SelectObject(pOldFont);
+	pDC->SelectObject(pOldFont);
 }
 
 
