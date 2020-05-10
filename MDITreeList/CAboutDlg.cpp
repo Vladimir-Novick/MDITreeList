@@ -38,4 +38,3 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDesignDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-

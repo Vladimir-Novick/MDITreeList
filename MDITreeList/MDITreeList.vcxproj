@@ -137,9 +137,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CAboutDlg.cpp" />
-    <ClCompile Include="CAppParamsMngr.cpp" />
     <ClCompile Include="CBaseTreeCtrl.cpp" />
     <ClCompile Include="CChildFrame.cpp" />
+    <ClCompile Include="CDesignDialog.cpp" />
     <ClCompile Include="CDialogAbout.cpp" />
     <ClCompile Include="CDlgSelectFont.cpp" />
     <ClCompile Include="CMainFrame.cpp" />
@@ -164,9 +164,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h" />
-    <ClInclude Include="CAppParamsMngr.h" />
     <ClInclude Include="CBaseTreeCtrl.h" />
     <ClInclude Include="CChildFrame.h" />
+    <ClInclude Include="CDesignDialog.h" />
     <ClInclude Include="CDialogAbout.h" />
     <ClInclude Include="CDlgSelectFont.h" />
     <ClInclude Include="CMainFrame.h" />

@@ -2,6 +2,7 @@
 #include "CDefaultAppFont.h"
 #include <map>
 #include <string>
+#include "CAppParamsMngr.h"
 
 
 CDefaultAppFont CDefaultAppFont::instance;
@@ -9,7 +10,7 @@ CDefaultAppFont CDefaultAppFont::instance;
 
 
 CDefaultAppFont::~CDefaultAppFont() {
-
+	DestroyObjects();
 }
 
 CDefaultAppFont* CDefaultAppFont::GetInstance() {
@@ -26,15 +27,42 @@ void CDefaultAppFont::SetItemHeight(string fontName, UINT height) {
 }
 
 CFont* CDefaultAppFont::GetFont(string fontName) {
-	return fonts[fontName];
+	CFont * font =  fonts[fontName];
+	return font;
+}
+
+HBRUSH CDefaultAppFont::GetColor(string colorName,  COLORREF defaultColor) {
+	
+	if (colors.find(colorName) != colors.end()) {
+		return colors[colorName];
+	}
+	return SetColor(colorName, defaultColor);
+	
+}
+
+HBRUSH CDefaultAppFont::SetColor(string colorName, COLORREF color) {
+	HBRUSH m_hBkgndBrush = CreateSolidBrush(color);
+	if (colors.find(colorName) != colors.end()) {
+		DeleteObject(colors[colorName]);
+	}
+	colors[colorName] = m_hBkgndBrush;
+	return m_hBkgndBrush;
 }
 
 
 
+
+void CDefaultAppFont::SetColor(string colorName) {
+	if (colors.find(colorName) != colors.end()) {
+		DeleteObject(colors[colorName]);
+		colors.erase(colorName);
+	}
+}
+
 void CDefaultAppFont::SetFont(string fontName, LOGFONT& lf) {
 	CFont* font = new CFont();
 	font->CreateFontIndirect(&lf);
-	CDefaultAppFont::SetFont(fontName, font);
+	SetFont(fontName, font);
 }
 
 void CDefaultAppFont::SetFont(string fontName, CFont* pFont) {
@@ -50,10 +78,16 @@ void CDefaultAppFont::SetFont(string fontName, CFont* pFont) {
 }
 
 
-void CDefaultAppFont::Destroy() {
+void CDefaultAppFont::DestroyObjects() {
 	for (auto it = fonts.begin(); it != fonts.end(); ++it) {
 		delete  it->second;
 	}
+	fonts.clear();
+	for (auto it = colors.begin(); it != colors.end(); ++it) {
+		DeleteObject(  it->second);
+	}
+	colors.clear();
+	heights.clear();
 }
 
 UINT CDefaultAppFont::MakeItemHeight(CFont* pFont)
@@ -73,13 +107,9 @@ UINT CDefaultAppFont::MakeItemHeight(CFont* pFont)
 	return newHeight;
 }
 
-
-
 CDefaultAppFont::CDefaultAppFont() {
 
 }
-
-
 
 void CDefaultAppFont::RedrawAllWindow()
 {
@@ -136,3 +166,16 @@ void CDefaultAppFont::RedrawAllWindow()
 
 
 
+
+
+COLORREF CDefaultAppFont::GetBrushColor(HBRUSH brush)
+{
+	LOGBRUSH lbr;
+	if (GetObject(brush, sizeof(lbr), &lbr) != sizeof(lbr)) {
+		return CLR_NONE;
+	}
+	if (lbr.lbStyle != BS_SOLID) {
+		return CLR_NONE;
+	}
+	return lbr.lbColor;
+}

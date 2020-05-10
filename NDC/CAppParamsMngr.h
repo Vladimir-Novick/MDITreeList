@@ -7,10 +7,14 @@
 
 
 using namespace std;
-class CAppParamsMngr
+
+
+#define DllExport   __declspec( dllexport )
+
+class DllExport CAppParamsMngr
 {
 private:
-	CString filePathAndName;
+	CString StorageFileName;
 	stringstream stringBuilder;
 	map<string, string> m_Values;
 public:
@@ -26,6 +30,11 @@ public:
 
 	void SetAppParameter(CString paramName, CString group_name,
 		CString newValue);
+
+
+	int GetAppParameterInt(CString Name, CString Section, int DefaultValue);
+	void SetAppParameterInt(CString Name, CString Section, int Value);
+
 private:
 	CAppParamsMngr::Operation currentOperationType;
 

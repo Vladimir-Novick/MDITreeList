@@ -79,15 +79,15 @@ BEGIN
     LTEXT           "Static",IDC_LIST_ITEMS_FONT_NAME2,95,44,143,8
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 53
 STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_TOPMOST
 CAPTION "About MDI Custom Font Application"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "MDICustomFont Version 3.0",IDC_STATIC,59,14,103,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) Vladimir Novick , 2000 - 2020",IDC_STATIC,40,25,176,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
+    LTEXT           "MDICustomFont Version 3.0",IDC_STATIC,59,15,103,12,SS_NOPREFIX
+    LTEXT           "Copyright (C) Vladimir Novick , 2000 - 2020",IDC_STATIC,39,28,176,15
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
 END
 
@@ -184,8 +184,17 @@ BEGIN
     BEGIN
         POPUP "Tree & List Fonts"
         BEGIN
-            MENUITEM "Headers", ID_TREE_HEADER_SETFONTS
-            MENUITEM "Items",   ID_TREE_ITEM_SETFONTS
+            MENUITEM "Headers",                     ID_TREE_HEADER_SETFONTS
+            MENUITEM "Items",                       ID_TREE_ITEM_SETFONTS
+        END
+        POPUP "Dialogs"
+        BEGIN
+            MENUITEM "Fonts",                       ID_DIALOGFONTS
+            POPUP "Backgrownd Color"
+            BEGIN
+                MENUITEM "Select",                      ID_SET_BACKGRAWND_COLOR
+                MENUITEM "Default",                     ID_SET_DEFAULT_BACKGRAWND_COLOR
+            END
         END
     END
     POPUP "&Help"
@@ -232,8 +241,17 @@ BEGIN
     BEGIN
         POPUP "Tree & List Fonts"
         BEGIN
-            MENUITEM "Headers", ID_TREE_HEADER_SETFONTS
-            MENUITEM "Items",   ID_TREE_ITEM_SETFONTS
+            MENUITEM "Headers",                     ID_TREE_HEADER_SETFONTS
+            MENUITEM "Items",                       ID_TREE_ITEM_SETFONTS
+        END
+        POPUP "Dialogs"
+        BEGIN
+            MENUITEM "Fonts",                       ID_DIALOGFONTS
+            POPUP "Backgrownd Color"
+            BEGIN
+                MENUITEM "Select",                      ID_SET_BACKGRAWND_COLOR
+                MENUITEM "Default",                     ID_SET_DEFAULT_BACKGRAWND_COLOR
+            END
         END
     END
     POPUP "&Help"
@@ -286,11 +304,20 @@ BEGIN
     END
     POPUP "Properties"
     BEGIN
-         POPUP "Tree & List Fonts"
-         BEGIN
-                MENUITEM "Headers", ID_TREE_HEADER_SETFONTS
-                MENUITEM "Items", ID_TREE_ITEM_SETFONTS
-         END
+        POPUP "Tree & List Fonts"
+        BEGIN
+            MENUITEM "Headers",                     ID_TREE_HEADER_SETFONTS
+            MENUITEM "Items",                       ID_TREE_ITEM_SETFONTS
+        END
+        POPUP "Dialogs"
+        BEGIN
+            MENUITEM "Fonts",                       ID_DIALOGFONTS
+            POPUP "Backgrownd Color"
+            BEGIN
+                MENUITEM "Select",                      ID_SET_BACKGRAWND_COLOR
+                MENUITEM "Default",                     ID_SET_DEFAULT_BACKGRAWND_COLOR
+            END
+        END
     END
     POPUP "&Help"
     BEGIN
@@ -382,7 +409,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 228
         TOPMARGIN, 7
-        BOTTOMMARGIN, 48
+        BOTTOMMARGIN, 46
     END
 
     IDD_MULTILINE_FORM, DIALOG

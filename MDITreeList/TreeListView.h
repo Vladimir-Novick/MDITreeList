@@ -4,6 +4,7 @@
 
 
 #include "CBaseTreeCtrl.h"
+#include "ListFont/HeaderCtrlExt.h"
 
 class CBaseTreeObj : public CObject
 {
@@ -22,7 +23,7 @@ class CTreeListView : public CView
 protected:
 	CMap<HTREEITEM, HTREEITEM, CBaseTreeObj, CBaseTreeObj&> m_Entries;
 	CBaseTreeCtrl		m_List;
-	CHeaderCtrl		m_ctrlHeader;
+	CHeaderCtrlExt		m_ctrlHeader;
 	HeaderData*		m_vsCol;
 	COLORREF		m_colBackColor;
 	COLORREF		m_colHilightText;

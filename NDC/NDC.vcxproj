@@ -154,8 +154,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CAppParamsMngr.h" />
     <ClInclude Include="CDefaultAppFont.h" />
-    <ClInclude Include="CDesignDialog.h" />
     <ClInclude Include="CDialogProperty.h" />
     <ClInclude Include="ClientWnd.h" />
     <ClInclude Include="CSerializable.h" />
@@ -168,8 +168,8 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CAppParamsMngr.cpp" />
     <ClCompile Include="CDefaultAppFont.cpp" />
-    <ClCompile Include="CDesignDialog.cpp" />
     <ClCompile Include="CDialogProperty.cpp" />
     <ClCompile Include="ClientWnd.cpp" />
     <ClCompile Include="CSerializable.cpp" />

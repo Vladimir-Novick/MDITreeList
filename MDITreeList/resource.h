@@ -30,12 +30,24 @@
 #define IDC_BUTTON_LIST_ITEMS           1009
 #define IDC_LIST_HEADER_FONT_NAME2      1010
 #define IDC_LIST_ITEMS_FONT_NAME2       1011
-#define ID_TREE_ITEM_SETFONTS                 32771
-#define ID_TREE_ITEM_SETFONTS32772            32772
+#define ID_TREE_ITEM_SETFONTS           32771
+#define ID_TREE_ITEM_SETFONTS32772      32772
 #define ID_HEADER                       32773
 #define ID_FILE_OPENTREEVIEW            32774
 #define ID_FILE_NEWLIST                 32775
-#define ID_TREE_HEADER_SETFONTS			32776
+#define ID_TREE_HEADER_SETFONTS         32776
+#define ID_PROPERTIES_DIALOGFONT        32777
+#define ID_DIALOGFONTS                  32778
+#define ID_PROPERTIES_D                 32779
+#define ID_PROPERTIES_DIALOGS           32780
+#define ID_SET_BACKGRAWND_COLOR         32781
+#define ID_DIALOGS_DEFAULTCOLOR         32782
+#define ID_DEFAULT_BACK_COLOR           32783
+#define ID_SET_DEFAULT_BACKGRAWND_COLOR     32784
+#define ID_DIALOGS_BACKGROWNDCOLOR      32785
+#define ID_SELECTCOLOR_F                32786
+#define ID_BACKGROWNDCOLOR_F            32787
+
 
 // Next default values for new objects
 // 
@@ -43,7 +55,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        144
-#define _APS_NEXT_COMMAND_VALUE         32777
+#define _APS_NEXT_COMMAND_VALUE         32788
 #define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

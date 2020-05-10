@@ -37,9 +37,6 @@
     <ClCompile Include="TreeListCtrlFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CAppParamsMngr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CBaseTreeCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="CDlgSelectFont.cpp">
       <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="CDesignDialog.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,9 +102,6 @@
     <ClInclude Include="TreeListCtrlFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CAppParamsMngr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CBaseTreeCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -125,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="CDlgSelectFont.h">
       <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="CDesignDialog.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

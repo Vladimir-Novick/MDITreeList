@@ -11,7 +11,7 @@
 #include "MDIAppViewView.h"
 #include "CDialogAbout.h"
 #include "TreeListCtrlView.h"
-#include "CAppParamsMngr.h"
+#include "..\NDC\CAppParamsMngr.h"
 #include "TreeListCtrlFrame.h"
 #include "ListFont/ListFontDoc.h"
 #include "ListFont/ListFontView.h"
@@ -40,6 +40,9 @@ BEGIN_MESSAGE_MAP(CMDIAppViewApp, CWinApp)
 	ON_COMMAND(ID_FILE_NEWLIST, OnOpenListView)
 	ON_COMMAND(ID_TREE_ITEM_SETFONTS, OnSetFont)
 	ON_COMMAND(ID_TREE_HEADER_SETFONTS, OnSetHeaderFont)
+	ON_COMMAND(ID_DIALOGFONTS, OnSetDialogFont)
+	ON_COMMAND(ID_SET_BACKGRAWND_COLOR, OnSetBackgrowndColor)
+	ON_COMMAND(ID_SET_DEFAULT_BACKGRAWND_COLOR, OnSetDefaultBackgrowndColor)
 		// NOTE - the ClassWizard will add and remove mapping macros here.
 		//    DO NOT EDIT what you see in these blocks of generated code!
 	//}}AFX_MSG_MAP
@@ -63,6 +66,37 @@ void CMDIAppViewApp::OnOpenTreeView()
 void CMDIAppViewApp::OnOpenListView()
 {
 	auto pNewDoc = m_TemplateListFont->OpenDocumentFile(NULL);
+}
+
+void CMDIAppViewApp::SaveDefaultAppColor(const string&, COLORREF color) {
+	RGBTRIPLE rgb;
+
+	rgb.rgbtRed = GetRValue(color);
+	rgb.rgbtGreen = GetGValue(color);
+	rgb.rgbtBlue = GetBValue(color);
+
+	CAppParamsMngr appParamsMngr("DefaultParams", CAppParamsMngr::WRITE);
+	appParamsMngr.SetAppParameterInt("Red", DIALOG_BACKGROUNT_COLOR_NAME, rgb.rgbtRed);
+	appParamsMngr.SetAppParameterInt("Green", DIALOG_BACKGROUNT_COLOR_NAME, rgb.rgbtGreen);
+	appParamsMngr.SetAppParameterInt("Blue", DIALOG_BACKGROUNT_COLOR_NAME, rgb.rgbtBlue);
+}
+
+COLORREF CMDIAppViewApp::ReadDefaultAppColor(const string& paramName)
+{
+	RGBTRIPLE rgb1;
+	COLORREF color = GetSysColor(CTLCOLOR_DLG);
+
+	rgb1.rgbtRed = GetRValue(color);
+	rgb1.rgbtGreen = GetGValue(color);
+	rgb1.rgbtBlue = GetBValue(color);
+
+	RGBTRIPLE rgb;
+	CAppParamsMngr appParamsMngr("DefaultParams", CAppParamsMngr::READ);
+	rgb.rgbtRed = appParamsMngr.GetAppParameterInt("Red", DIALOG_BACKGROUNT_COLOR_NAME, rgb1.rgbtRed);
+	rgb.rgbtGreen = appParamsMngr.GetAppParameterInt("Green", DIALOG_BACKGROUNT_COLOR_NAME, rgb1.rgbtGreen);
+	rgb.rgbtBlue =appParamsMngr.GetAppParameterInt("Blue", DIALOG_BACKGROUNT_COLOR_NAME, rgb1.rgbtBlue);
+	COLORREF colorRef = RGB(rgb.rgbtRed, rgb.rgbtGreen, rgb.rgbtBlue);
+	return colorRef;
 }
 
 
@@ -167,10 +201,25 @@ void CMDIAppViewApp::MakeDefaultAppFont() {
 		ReadDefaultAppFont(TREE_FONT_NAME, lf);
 		CDefaultAppFont::GetInstance()->SetFont(TREE_FONT_NAME, lf);
 	}
+
 	{
 		LOGFONT lf = {};
 		ReadDefaultAppFont(TREE_HEADER_FONT_NAME, lf);
 		CDefaultAppFont::GetInstance()->SetFont(TREE_HEADER_FONT_NAME, lf);
+	}
+
+
+	{
+		LOGFONT lf = {};
+		ReadDefaultAppFont(DIALOG_FONT_NAME, lf);
+		CDefaultAppFont::GetInstance()->SetFont(DIALOG_FONT_NAME, lf);
+	}
+
+
+	{
+
+		COLORREF colorRef = ReadDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME);
+		CDefaultAppFont::GetInstance()->SetColor(DIALOG_BACKGROUNT_COLOR_NAME, colorRef);
 	}
 }
 
@@ -216,6 +265,52 @@ void CMDIAppViewApp::OnSetHeaderFont()
 		CDefaultAppFont::GetInstance()->RedrawAllWindow();
 	}
 }
+
+void CMDIAppViewApp::OnSetDialogFont()
+{
+	LOGFONT lf;
+	memset(&lf, 0, sizeof lf);
+
+	ReadDefaultAppFont(DIALOG_FONT_NAME, lf);
+
+	CFontDialog fontDialog(&lf, CF_SCREENFONTS);
+	if (fontDialog.DoModal() == IDOK)
+	{
+		memset(&lf, 0, sizeof lf);
+		fontDialog.GetCurrentFont(&lf);
+
+		SaveDefaultAppFont(DIALOG_FONT_NAME, lf);
+		MakeDefaultAppFont();
+		
+	}
+}
+
+void CMDIAppViewApp::OnSetBackgrowndColor()
+{
+	COLORREF colorRef;
+	
+	colorRef = ReadDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME);
+
+	CColorDialog fontDialog(colorRef, CC_FULLOPEN);
+	if (fontDialog.DoModal() == IDOK)
+	{
+
+		colorRef = fontDialog.GetColor();
+
+		SaveDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME, colorRef);
+		MakeDefaultAppFont();
+
+	}
+}
+
+void CMDIAppViewApp::OnSetDefaultBackgrowndColor()
+{
+	COLORREF colorRef = GetSysColor(CTLCOLOR_DLG);
+	SaveDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME, colorRef);
+	MakeDefaultAppFont();
+
+}
+
 
 
 

@@ -2,6 +2,7 @@
 #include "CDialogAbout.h"
 #include "CAboutDlg.h"
 
+
 #ifdef _DEBUG
 #undef DEBUG_NEW
 #define DEBUG_NEW new(__FILE__, __LINE__)

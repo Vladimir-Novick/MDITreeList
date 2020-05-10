@@ -20,6 +20,10 @@ protected:
 	CMultiDocTemplate* m_TemplateListFont;
 	void ReadDefaultAppFont(const string &paramName, LOGFONT & lf);
 	void SaveDefaultAppFont(const string &paramName, LOGFONT & lf);
+
+	void SaveDefaultAppColor(const string&, COLORREF color);
+	COLORREF ReadDefaultAppColor(const string& paramName);
+
 public:
 	CMDIAppViewApp();
 	virtual ~CMDIAppViewApp();
@@ -43,6 +47,9 @@ public:
 
 	afx_msg void OnSetFont();
 	afx_msg void OnSetHeaderFont();
+	afx_msg void OnSetDialogFont();
+	afx_msg void OnSetBackgrowndColor();
+	afx_msg void OnSetDefaultBackgrowndColor();
 		// NOTE - the ClassWizard will add and remove member functions here.
 		//    DO NOT EDIT what you see in these blocks of generated code !
 	//}}AFX_MSG
