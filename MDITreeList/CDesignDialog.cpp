@@ -133,7 +133,7 @@ void CDesignDialog::ResizeWindow(const HWND& source_hWnd, float multiplier)
 	if (deltaY < 0) { deltaY = 0; }
 
 
-	wnd->SetWindowPos(NULL, deltaX, deltaY, cx, cy,  SWP_NOZORDER);
+	wnd->SetWindowPos(NULL, deltaX, deltaY, cx, cy, SWP_NOMOVE |  SWP_NOZORDER);
 }
 
 void CDesignDialog::ResizeChildWindow(const HWND& source_hWnd, float multiplier)
