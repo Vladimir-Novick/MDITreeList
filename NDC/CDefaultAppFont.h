@@ -32,7 +32,7 @@ private:
 	CDefaultAppFont();
 	void DestroyObjects();
 public:
-	virtual ~CDefaultAppFont();
+	~CDefaultAppFont();
 	static CDefaultAppFont* GetInstance();
 
 	CFont* GetFont(string fontName);
