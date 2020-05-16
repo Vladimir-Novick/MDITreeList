@@ -2,7 +2,6 @@
 #include "CDefaultAppFont.h"
 #include <map>
 #include <string>
-#include "CAppParamsMngr.h"
 
 
 CDefaultAppFont CDefaultAppFont::instance;
@@ -27,36 +26,7 @@ void CDefaultAppFont::SetItemHeight(string fontName, UINT height) {
 }
 
 CFont* CDefaultAppFont::GetFont(string fontName) {
-	CFont * font =  fonts[fontName];
-	return font;
-}
-
-HBRUSH CDefaultAppFont::GetColor(string colorName,  COLORREF defaultColor) {
-	
-	if (colors.find(colorName) != colors.end()) {
-		return colors[colorName];
-	}
-	return SetColor(colorName, defaultColor);
-	
-}
-
-HBRUSH CDefaultAppFont::SetColor(string colorName, COLORREF color) {
-	HBRUSH m_hBkgndBrush = CreateSolidBrush(color);
-	if (colors.find(colorName) != colors.end()) {
-		DeleteObject(colors[colorName]);
-	}
-	colors[colorName] = m_hBkgndBrush;
-	return m_hBkgndBrush;
-}
-
-
-
-
-void CDefaultAppFont::SetColor(string colorName) {
-	if (colors.find(colorName) != colors.end()) {
-		DeleteObject(colors[colorName]);
-		colors.erase(colorName);
-	}
+	return fonts[fontName];
 }
 
 void CDefaultAppFont::SetFont(string fontName, LOGFONT& lf) {
@@ -64,6 +34,8 @@ void CDefaultAppFont::SetFont(string fontName, LOGFONT& lf) {
 	font->CreateFontIndirect(&lf);
 	SetFont(fontName, font);
 }
+
+
 
 void CDefaultAppFont::SetFont(string fontName, CFont* pFont) {
 	CFont* oldFont = fonts[fontName];
@@ -77,6 +49,11 @@ void CDefaultAppFont::SetFont(string fontName, CFont* pFont) {
 	SetItemHeight(fontName, height);
 }
 
+void CDefaultAppFont::SetFont(string fontName, CFont* pFont, COLORREF color) {
+	SetFont(fontName, pFont);
+	SetColor(fontName, color);
+}
+
 
 void CDefaultAppFont::DestroyObjects() {
 	for (auto it = fonts.begin(); it != fonts.end(); ++it) {
@@ -84,11 +61,12 @@ void CDefaultAppFont::DestroyObjects() {
 	}
 	fonts.clear();
 	for (auto it = colors.begin(); it != colors.end(); ++it) {
-		DeleteObject(  it->second);
+		DeleteObject(it->second);
 	}
 	colors.clear();
 	heights.clear();
 }
+
 
 UINT CDefaultAppFont::MakeItemHeight(CFont* pFont)
 {
@@ -102,14 +80,18 @@ UINT CDefaultAppFont::MakeItemHeight(CFont* pFont)
 		GetTextMetrics(pDC->m_hDC, &tm);
 		pDC->SelectObject(pOldFont);
 
-		newHeight = tm.tmHeight * 1.4;
+		newHeight = tm.tmHeight * 1.6;
 	}
 	return newHeight;
 }
 
+
+
 CDefaultAppFont::CDefaultAppFont() {
 
 }
+
+
 
 void CDefaultAppFont::RedrawAllWindow()
 {
@@ -165,9 +147,6 @@ void CDefaultAppFont::RedrawAllWindow()
 }
 
 
-
-
-
 COLORREF CDefaultAppFont::GetBrushColor(HBRUSH brush)
 {
 	LOGBRUSH lbr;
@@ -179,3 +158,30 @@ COLORREF CDefaultAppFont::GetBrushColor(HBRUSH brush)
 	}
 	return lbr.lbColor;
 }
+
+HBRUSH CDefaultAppFont::GetColor(string colorName, COLORREF defaultColor) {
+
+	if (colors.find(colorName) != colors.end()) {
+		return colors[colorName];
+	}
+	return SetColor(colorName, defaultColor);
+
+}
+
+HBRUSH CDefaultAppFont::SetColor(string colorName, COLORREF color) {
+	HBRUSH m_hBkgndBrush = CreateSolidBrush(color);
+	if (colors.find(colorName) != colors.end()) {
+		DeleteObject(colors[colorName]);
+	}
+	colors[colorName] = m_hBkgndBrush;
+	return m_hBkgndBrush;
+}
+
+void CDefaultAppFont::DestroyColor(string colorName) {
+	if (colors.find(colorName) != colors.end()) {
+		DeleteObject(colors[colorName]);
+		colors.erase(colorName);
+	}
+}
+
+

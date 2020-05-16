@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{A5CE21B9-64E
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DlgDesign", "..\DlgDesign\DlgDesign.vcxproj", "{3349E6C4-24EF-4C59-AB32-BEC98214CA85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -35,6 +37,14 @@ Global
 		{AE04B5D1-B0CA-40A2-8758-91344843B09C}.Release|x64.Build.0 = Release|x64
 		{AE04B5D1-B0CA-40A2-8758-91344843B09C}.Release|x86.ActiveCfg = Release|Win32
 		{AE04B5D1-B0CA-40A2-8758-91344843B09C}.Release|x86.Build.0 = Release|Win32
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Debug|x64.ActiveCfg = Debug|x64
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Debug|x64.Build.0 = Debug|x64
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Debug|x86.ActiveCfg = Debug|Win32
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Debug|x86.Build.0 = Debug|Win32
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Release|x64.ActiveCfg = Release|x64
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Release|x64.Build.0 = Release|x64
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Release|x86.ActiveCfg = Release|Win32
+		{3349E6C4-24EF-4C59-AB32-BEC98214CA85}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

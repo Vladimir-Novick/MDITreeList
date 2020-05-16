@@ -139,7 +139,6 @@
     <ClCompile Include="CAboutDlg.cpp" />
     <ClCompile Include="CBaseTreeCtrl.cpp" />
     <ClCompile Include="CChildFrame.cpp" />
-    <ClCompile Include="CDesignDialog.cpp" />
     <ClCompile Include="CDialogAbout.cpp" />
     <ClCompile Include="CDlgSelectFont.cpp" />
     <ClCompile Include="CMainFrame.cpp" />
@@ -166,7 +165,6 @@
     <ClInclude Include="CAboutDlg.h" />
     <ClInclude Include="CBaseTreeCtrl.h" />
     <ClInclude Include="CChildFrame.h" />
-    <ClInclude Include="CDesignDialog.h" />
     <ClInclude Include="CDialogAbout.h" />
     <ClInclude Include="CDlgSelectFont.h" />
     <ClInclude Include="CMainFrame.h" />
@@ -186,6 +184,9 @@
     <ClInclude Include="TreeListView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DlgDesign\DlgDesign.vcxproj">
+      <Project>{3349e6c4-24ef-4c59-ab32-bec98214ca85}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\NDC\NDC.vcxproj">
       <Project>{ae04b5d1-b0ca-40a2-8758-91344843b09c}</Project>
     </ProjectReference>

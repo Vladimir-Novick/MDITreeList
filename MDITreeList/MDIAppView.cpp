@@ -68,55 +68,58 @@ void CMDIAppViewApp::OnOpenListView()
 	auto pNewDoc = m_TemplateListFont->OpenDocumentFile(NULL);
 }
 
-void CMDIAppViewApp::SaveDefaultAppColor(const string&, COLORREF color) {
+void CMDIAppViewApp::SaveDefaultAppColor(const string& coolor_name, COLORREF color) {
 	RGBTRIPLE rgb;
+
+	CString strColorName = coolor_name.c_str();
 
 	rgb.rgbtRed = GetRValue(color);
 	rgb.rgbtGreen = GetGValue(color);
 	rgb.rgbtBlue = GetBValue(color);
 
 	CAppParamsMngr appParamsMngr("DefaultParams", CAppParamsMngr::WRITE);
-	appParamsMngr.SetAppParameterInt("Red", DIALOG_BACKGROUNT_COLOR_NAME, rgb.rgbtRed);
-	appParamsMngr.SetAppParameterInt("Green", DIALOG_BACKGROUNT_COLOR_NAME, rgb.rgbtGreen);
-	appParamsMngr.SetAppParameterInt("Blue", DIALOG_BACKGROUNT_COLOR_NAME, rgb.rgbtBlue);
+	appParamsMngr.SetAppParameterInt("Red", strColorName, rgb.rgbtRed);
+	appParamsMngr.SetAppParameterInt("Green", strColorName, rgb.rgbtGreen);
+	appParamsMngr.SetAppParameterInt("Blue", strColorName, rgb.rgbtBlue);
 }
 
-COLORREF CMDIAppViewApp::ReadDefaultAppColor(const string& paramName)
+COLORREF CMDIAppViewApp::ReadDefaultAppColor(const string& paramName,
+	int rgbtRed, int rgbtGreen, int rgbtBlue
+	)
 {
-	RGBTRIPLE rgb1;
-	COLORREF color = GetSysColor(CTLCOLOR_DLG);
 
-	rgb1.rgbtRed = GetRValue(color);
-	rgb1.rgbtGreen = GetGValue(color);
-	rgb1.rgbtBlue = GetBValue(color);
-
+	CString strColorName = paramName.c_str();
 	RGBTRIPLE rgb;
 	CAppParamsMngr appParamsMngr("DefaultParams", CAppParamsMngr::READ);
-	rgb.rgbtRed = appParamsMngr.GetAppParameterInt("Red", DIALOG_BACKGROUNT_COLOR_NAME, rgb1.rgbtRed);
-	rgb.rgbtGreen = appParamsMngr.GetAppParameterInt("Green", DIALOG_BACKGROUNT_COLOR_NAME, rgb1.rgbtGreen);
-	rgb.rgbtBlue =appParamsMngr.GetAppParameterInt("Blue", DIALOG_BACKGROUNT_COLOR_NAME, rgb1.rgbtBlue);
+	rgb.rgbtRed = appParamsMngr.GetAppParameterInt("Red", strColorName, rgbtRed);
+	rgb.rgbtGreen = appParamsMngr.GetAppParameterInt("Green", strColorName, rgbtGreen);
+	rgb.rgbtBlue =appParamsMngr.GetAppParameterInt("Blue", strColorName, rgbtBlue);
 	COLORREF colorRef = RGB(rgb.rgbtRed, rgb.rgbtGreen, rgb.rgbtBlue);
 	return colorRef;
 }
 
 
 
-void CMDIAppViewApp::ReadDefaultAppFont(const string &paramName, LOGFONT & lf)
+void CMDIAppViewApp::ReadDefaultAppFont(const string &paramName, LOGFONT & lf, int size)
 {
-	HGDIOBJ gui_font = ::GetStockObject(DEFAULT_GUI_FONT);
-
-
-	if (gui_font == NULL) {
-		gui_font = ::GetStockObject(SYSTEM_FONT);
-	}
-
-	CFont* pFontSystem =
-		CFont::FromHandle((HFONT)gui_font);
-
+	CString fontID(paramName.c_str());
 	LOGFONT defaultLogFont;
-	memset(&defaultLogFont, 0, sizeof defaultLogFont);
 
-	pFontSystem->GetLogFont(&defaultLogFont);
+	memset(&defaultLogFont, 0, sizeof(defaultLogFont));
+	auto app = AfxGetApp();
+	CDC* cdc = app->GetMainWnd()->GetDC();
+	cdc->SetMapMode(MM_TEXT);
+
+	int currentY = -MulDiv(size, GetDeviceCaps(cdc->m_hDC, LOGPIXELSY), 72);
+
+
+	defaultLogFont.lfHeight = currentY;
+
+	defaultLogFont.lfCharSet = DEFAULT_CHARSET;
+
+	defaultLogFont.lfWeight = FW_REGULAR;
+	defaultLogFont.lfPitchAndFamily = VARIABLE_PITCH | FF_SWISS;
+	lstrcpy(defaultLogFont.lfFaceName, L"MS Sans Serif");
 
 	CAppParamsMngr appParamsMngr("DefaultParams", CAppParamsMngr::READ);
 	CString strTemp;
@@ -198,27 +201,39 @@ void CMDIAppViewApp::SaveDefaultAppFont(const string &paramName, LOGFONT& lf)
 void CMDIAppViewApp::MakeDefaultAppFont() {
 	{
 		LOGFONT lf = {};
-		ReadDefaultAppFont(TREE_FONT_NAME, lf);
+		ReadDefaultAppFont(TREE_FONT_NAME, lf, TREE_FONT_NAME_SIZE);
 		CDefaultAppFont::GetInstance()->SetFont(TREE_FONT_NAME, lf);
 	}
 
 	{
 		LOGFONT lf = {};
-		ReadDefaultAppFont(TREE_HEADER_FONT_NAME, lf);
+		ReadDefaultAppFont(TREE_HEADER_FONT_NAME, lf, TREE_HEADER_FONT_NAME_SIZE);
 		CDefaultAppFont::GetInstance()->SetFont(TREE_HEADER_FONT_NAME, lf);
 	}
 
 
 	{
 		LOGFONT lf = {};
-		ReadDefaultAppFont(DIALOG_FONT_NAME, lf);
+		ReadDefaultAppFont(DIALOG_FONT_NAME, lf, DIALOG_FONT_NAME_SIZE);
 		CDefaultAppFont::GetInstance()->SetFont(DIALOG_FONT_NAME, lf);
+
+		COLORREF colorRef = ReadDefaultAppColor(DIALOG_FONT_NAME
+		, DIALOG_FONT_NAME_R
+		, DIALOG_FONT_NAME_G
+		, DIALOG_FONT_NAME_B
+		
+		);
+		CDefaultAppFont::GetInstance()->SetColor(DIALOG_FONT_NAME, colorRef);
 	}
 
 
 	{
 
-		COLORREF colorRef = ReadDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME);
+		COLORREF colorRef = ReadDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME,
+			DIALOG_BACKGROUNT_COLOR_NAME_R,
+			DIALOG_BACKGROUNT_COLOR_NAME_G,
+			DIALOG_BACKGROUNT_COLOR_NAME_B
+			);
 		CDefaultAppFont::GetInstance()->SetColor(DIALOG_BACKGROUNT_COLOR_NAME, colorRef);
 	}
 }
@@ -232,7 +247,7 @@ void CMDIAppViewApp::OnSetFont()
 	LOGFONT lf;
 	memset(&lf, 0, sizeof lf);
 
-	ReadDefaultAppFont(TREE_FONT_NAME,lf);
+	ReadDefaultAppFont(TREE_FONT_NAME,lf, TREE_FONT_NAME_SIZE);
 
 	CFontDialog fontDialog(&lf, CF_SCREENFONTS);
 	if (fontDialog.DoModal() == IDOK)
@@ -252,9 +267,13 @@ void CMDIAppViewApp::OnSetHeaderFont()
 	LOGFONT lf;
 	memset(&lf, 0, sizeof lf);
 
-	ReadDefaultAppFont(TREE_HEADER_FONT_NAME,lf);
+	ReadDefaultAppFont(TREE_HEADER_FONT_NAME,lf, TREE_HEADER_FONT_NAME_SIZE);
 
 	CFontDialog fontDialog(&lf, CF_SCREENFONTS);
+
+
+
+
 	if (fontDialog.DoModal() == IDOK)
 	{
 		memset(&lf, 0, sizeof lf);
@@ -271,15 +290,29 @@ void CMDIAppViewApp::OnSetDialogFont()
 	LOGFONT lf;
 	memset(&lf, 0, sizeof lf);
 
-	ReadDefaultAppFont(DIALOG_FONT_NAME, lf);
+	ReadDefaultAppFont(DIALOG_FONT_NAME, lf, DIALOG_FONT_NAME_SIZE);
 
-	CFontDialog fontDialog(&lf, CF_SCREENFONTS);
+	COLORREF colorRef = ReadDefaultAppColor(DIALOG_FONT_NAME
+		, DIALOG_FONT_NAME_R
+		, DIALOG_FONT_NAME_G
+		, DIALOG_FONT_NAME_B
+
+	);
+
+	CFontDialog fontDialog(&lf);
+	fontDialog.m_cf.Flags |= CF_EFFECTS;
+	fontDialog.m_cf.rgbColors = colorRef;
 	if (fontDialog.DoModal() == IDOK)
 	{
 		memset(&lf, 0, sizeof lf);
 		fontDialog.GetCurrentFont(&lf);
 
 		SaveDefaultAppFont(DIALOG_FONT_NAME, lf);
+
+		colorRef = fontDialog.GetColor();
+
+		SaveDefaultAppColor(DIALOG_FONT_NAME, colorRef);
+
 		MakeDefaultAppFont();
 		
 	}
@@ -289,7 +322,11 @@ void CMDIAppViewApp::OnSetBackgrowndColor()
 {
 	COLORREF colorRef;
 	
-	colorRef = ReadDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME);
+	colorRef = ReadDefaultAppColor(DIALOG_BACKGROUNT_COLOR_NAME, 
+		DIALOG_BACKGROUNT_COLOR_NAME_R,
+		DIALOG_BACKGROUNT_COLOR_NAME_G,
+		DIALOG_BACKGROUNT_COLOR_NAME_B
+	);
 
 	CColorDialog fontDialog(colorRef, CC_FULLOPEN);
 	if (fontDialog.DoModal() == IDOK)

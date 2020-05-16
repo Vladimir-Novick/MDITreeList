@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "afxwin.h"
 #include "CAboutDlg.h"
-#include "CDesignDialog.h"
+
 
 #ifdef _DEBUG
 #undef DEBUG_NEW

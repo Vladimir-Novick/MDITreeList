@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "CDesignDialog.h"
+#include "../DlgDesign/CDesignDialog.h"
 
 
 

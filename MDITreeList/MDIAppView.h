@@ -18,11 +18,11 @@ class CMDIAppViewApp : public CWinApp
 protected:
 	CMultiDocTemplate* m_pDocTemplateTreeView;
 	CMultiDocTemplate* m_TemplateListFont;
-	void ReadDefaultAppFont(const string &paramName, LOGFONT & lf);
+	void ReadDefaultAppFont(const string &paramName, LOGFONT & lf, int size);
 	void SaveDefaultAppFont(const string &paramName, LOGFONT & lf);
 
 	void SaveDefaultAppColor(const string&, COLORREF color);
-	COLORREF ReadDefaultAppColor(const string& paramName);
+	COLORREF ReadDefaultAppColor(const string& paramName, int rgbtRed, int rgbtGreen, int rgbtBlue);
 
 public:
 	CMDIAppViewApp();

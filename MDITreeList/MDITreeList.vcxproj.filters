@@ -58,9 +58,6 @@
     <ClCompile Include="CDlgSelectFont.cpp">
       <Filter>Source Files\ListFont</Filter>
     </ClCompile>
-    <ClCompile Include="CDesignDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h">
@@ -122,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="CDlgSelectFont.h">
       <Filter>Header Files\ListFont</Filter>
-    </ClInclude>
-    <ClInclude Include="CDesignDialog.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
