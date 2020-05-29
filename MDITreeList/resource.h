@@ -19,6 +19,7 @@
 #define IDD_LIST_FORM                   141
 #define IDD_DIALOG1                     142
 #define IDD_DLG_SELECT_FONT             143
+#define IDD_DIALOG2                     144
 #define IDC_EDIT2                       1001
 #define IDC_EDIT3                       1002
 #define IDC_LIST                        1003
@@ -43,18 +44,17 @@
 #define ID_SET_BACKGRAWND_COLOR         32781
 #define ID_DIALOGS_DEFAULTCOLOR         32782
 #define ID_DEFAULT_BACK_COLOR           32783
-#define ID_SET_DEFAULT_BACKGRAWND_COLOR     32784
+#define ID_SET_DEFAULT_BACKGRAWND_COLOR 32784
 #define ID_DIALOGS_BACKGROWNDCOLOR      32785
 #define ID_SELECTCOLOR_F                32786
 #define ID_BACKGROWNDCOLOR_F            32787
-
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_RESOURCE_VALUE        146
 #define _APS_NEXT_COMMAND_VALUE         32788
 #define _APS_NEXT_CONTROL_VALUE         1012
 #define _APS_NEXT_SYMED_VALUE           101

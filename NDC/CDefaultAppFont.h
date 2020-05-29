@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #define WINVER			0x0501
 #define _WIN32_WINNT	0x0501 
@@ -76,13 +75,14 @@ class DllExport  CDefaultAppFont {
 private:
 	static CDefaultAppFont instance;
 	map<string, CFont*> fonts;
+	map<string, CFont*> scaleFonts;
 	map<string, UINT> heights;
 	map<string, HBRUSH> colors;
 	CDefaultAppFont();
 
 	void SetItemHeight(string fontName, UINT height);
 
-
+	string LogFontToString(LOGFONT& font);
 public:
 
 	UINT MakeItemHeight(CFont* pFont);
@@ -90,6 +90,8 @@ public:
 	static CDefaultAppFont* GetInstance();
 
 	CFont* GetFont(string fontName);
+	CFont* GetScaleFont(LOGFONT& font);
+
 	void SetFont(string fontName, CFont* font);
 	void SetFont(string fontName, CFont* font, COLORREF color);
 	void SetFont(string fontName, LOGFONT& font);
@@ -101,6 +103,8 @@ public:
 
 	UINT GetItemHeight(string fontName);
 	void DestroyObjects();
+	void ClearScaleFonts();
 	void RedrawAllWindow();
 
+	POINT GetFontSize(CFont* font);
 };

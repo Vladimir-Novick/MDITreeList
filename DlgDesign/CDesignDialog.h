@@ -81,7 +81,7 @@ public:
 	
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	virtual BOOL DestroyWindow();
-	virtual void DoDataExchange(CDataExchange* pDX);
+
 	virtual INT_PTR DoModal();
 
 	virtual HRESULT get_accChild(VARIANT varChild, IDispatch** ppdispChild);
@@ -131,6 +131,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
+	virtual void DoDataExchange(CDataExchange* pDX);
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };
 

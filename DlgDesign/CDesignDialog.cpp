@@ -152,7 +152,7 @@ void CDesignDialog::CorrectDialogFonts()
 
 #pragma endregion
 
-	ResizeWindow(m_hWnd, multiplier_height);
+
 
 	list<CWnd*> wndList;
 	pChild = GetWindow(GW_CHILD);
@@ -169,6 +169,7 @@ void CDesignDialog::CorrectDialogFonts()
 	}
 
 	cwnd->SetFont(pFont);
+	ResizeWindow(m_hWnd, multiplier_height);
 	ReleaseDC(cdc);
 }
 

@@ -2,7 +2,9 @@
 #include "CDefaultAppFont.h"
 #include <map>
 #include <string>
+#include <sstream>      // std::ostringstream
 
+using namespace std;
 
 CDefaultAppFont CDefaultAppFont::instance;
 
@@ -63,13 +65,70 @@ void CDefaultAppFont::DestroyObjects() {
 	for (auto it = colors.begin(); it != colors.end(); ++it) {
 		DeleteObject(it->second);
 	}
+
+
+	ClearScaleFonts();
 	colors.clear();
 	heights.clear();
+}
+
+void CDefaultAppFont::ClearScaleFonts()
+{
+	for (auto it = scaleFonts.begin(); it != scaleFonts.end(); ++it) {
+		delete  it->second;
+	}
+	scaleFonts.clear();
 }
 
 
 UINT CDefaultAppFont::MakeItemHeight(CFont* pFont)
 {
+
+	return GetFontSize(pFont).y * 1.4;
+}
+
+
+string  CDefaultAppFont::LogFontToString(LOGFONT& font) {
+	ostringstream stringBuilder;
+	stringBuilder << " " << font.lfHeight;
+	stringBuilder << " " << font.lfWidth;
+	stringBuilder << " " << font.lfEscapement;
+	stringBuilder << " " << font.lfOrientation;
+	stringBuilder << " " << font.lfWeight;
+	stringBuilder << " " << (int)font.lfItalic;
+	stringBuilder << " " << (int)font.lfUnderline;
+	stringBuilder << " " << (int)font.lfStrikeOut;
+	stringBuilder << " " << (int)font.lfCharSet;
+	stringBuilder << " " << (int)font.lfOutPrecision;
+	stringBuilder << " " << (int)font.lfClipPrecision;
+	stringBuilder << " " << (int)font.lfQuality;
+	stringBuilder << " " << (int)font.lfPitchAndFamily;
+
+
+
+	//convert from wide char to narrow char array
+	char ch[260];
+	char DefChar = ' ';
+	WideCharToMultiByte(CP_ACP, 0, font.lfFaceName, -1, ch, 260, &DefChar, NULL);
+
+	stringBuilder << " " << string(ch);
+	return stringBuilder.str();
+}
+
+CFont* CDefaultAppFont::GetScaleFont(LOGFONT& font) {
+	string scaleFfontName = LogFontToString(font);
+	if (scaleFonts.find(scaleFfontName) != scaleFonts.end()) {
+		return scaleFonts[scaleFfontName];
+	}
+	CFont* scaleFont = new CFont();
+	scaleFont->CreateFontIndirect(&font);
+	scaleFonts[scaleFfontName] = scaleFont;
+	return scaleFont;
+}
+
+POINT CDefaultAppFont::GetFontSize(CFont* pFont)
+{
+	POINT p;
 	auto mainWindow = AfxGetApp()->GetMainWnd();
 	UINT newHeight = 0;
 	if (mainWindow != NULL) {
@@ -80,11 +139,11 @@ UINT CDefaultAppFont::MakeItemHeight(CFont* pFont)
 		GetTextMetrics(pDC->m_hDC, &tm);
 		pDC->SelectObject(pOldFont);
 
-		newHeight = tm.tmHeight * 1.6;
+		p.y = tm.tmHeight;
+		p.x = tm.tmMaxCharWidth;
 	}
-	return newHeight;
+	return p;
 }
-
 
 
 CDefaultAppFont::CDefaultAppFont() {
@@ -183,5 +242,6 @@ void CDefaultAppFont::DestroyColor(string colorName) {
 		colors.erase(colorName);
 	}
 }
+
 
 
