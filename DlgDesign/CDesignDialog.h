@@ -4,6 +4,16 @@
 // all CModalDialog functionality is now in CDialog
 #define CModalDesignDialog    CDesignDialog
 
+struct SDesignFont {
+	CFont* pFont;
+	float  multiplier;
+};
+
+
+struct SDesignSize {
+	int width;
+	int height;
+};
 
 
 class  CDesignDialog : public CDialog
@@ -14,7 +24,7 @@ private:
 	CFont* pDefaultFont;
 	CFont* pScaleFont;
 	void Init();
-	void ResizeWindow(const HWND& source_hWnd, float multiplier);
+	static SDesignSize ResizeWindow(const HWND& source_hWnd, float multiplier);
 	void ResizeChildWindow(const HWND& source_hWnd, float multiplier);
 
 public:
@@ -63,8 +73,9 @@ public:
 
 	virtual BOOL OnInitDialog();
 
-	void CorrectDialogFonts();
-
+	static void ResizeChildWindow(const HWND& mainhWnd, const HWND& source_hWnd, float multiplier);
+	SDesignFont CorrectDialogFonts(HWND m_hWnd);
+	static SDesignSize ModifyChildrenWindow(HWND& m_hWnd, CFont* pFont, float multiplier_height);
 	virtual HRESULT accDoDefaultAction(VARIANT varChild);
 	virtual HRESULT accHitTest(long xLeft, long yTop, VARIANT* pvarChild);
 	virtual HRESULT accLocation(long* pxLeft, long* pyTop, long* pcxWidth, long* pcyHeight, VARIANT varChild);

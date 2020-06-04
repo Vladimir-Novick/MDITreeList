@@ -65,127 +65,223 @@ BOOL CDesignDialog::PreCreateWindow(CREATESTRUCT& cs)
 BOOL CDesignDialog::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	CorrectDialogFonts();
+	CorrectDialogFonts(m_hWnd);
+
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CDesignDialog::CorrectDialogFonts()
+SDesignSize CDesignDialog::ModifyChildrenWindow(HWND& m_hWnd, CFont* pFont, float multiplier_height)
 {
-	if (pDefaultFont != NULL) {
-		pDefaultFont = new CFont();
-		LOGFONT lf = {};
-		lf.lfHeight = 14;
-		strcpy_s((char*)lf.lfFaceName,31, "MS Sans Serif");
-		pDefaultFont->CreateFontIndirect(&lf);
+	SDesignSize ret = { 0,0 };
+
+	if (multiplier_height > 1 && pFont != NULL && m_hWnd != NULL) {
+		CWnd* cWnd = CWnd::FromHandle(m_hWnd);
+		list<CWnd*> wndList;
+		auto pChild = cWnd->GetWindow(GW_CHILD);
+		while (pChild) {
+
+			wndList.push_back(pChild);
+			pChild = pChild->GetNextWindow();
+		}
+
+		for (auto it = wndList.begin(); it != wndList.end(); ++it) {
+			CWnd* window = *it;
+			window->SetFont(pFont);
+			ResizeChildWindow(m_hWnd, window->m_hWnd, multiplier_height);
+		}
+
+
+	}
+	return ret;
+}
+
+void CDesignDialog::ResizeChildWindow(const HWND& mainhWnd, const HWND& source_hWnd, float multiplier_x)
+{
+
+	TCHAR clsName_v[256];
+	::GetClassName(source_hWnd, clsName_v, 256);
+	HWND child = source_hWnd;
+	CComboBox* combobox;
+	int dropW;
+
+
+	RECT rect = {};
+	CWnd* wnd = CWnd::FromHandle(child);
+	wnd->GetWindowRect(&rect);
+	wnd->GetParent()->ScreenToClient(&rect);
+
+	float cx = (float)(rect.right - rect.left) * multiplier_x;
+
+	float cy = (float)(rect.bottom - rect.top) * multiplier_x;
+
+	if (_tcscmp(clsName_v, _T("ComboBox")) == 0) {
+		cy *= 10;
 	}
 
+	float x = (float)(rect.left) * multiplier_x;
+	float y = (float)(rect.top) * multiplier_x;
+
+	::SetWindowPos(child, NULL, x, y, cx, cy, SWP_NOZORDER);
+}
 
 
 
+SDesignFont CDesignDialog::CorrectDialogFonts(HWND m_hWnd)
+{
+	SDesignFont retDate;
+	retDate.pFont = NULL;
+	retDate.multiplier = 1;
+
+	float multiplier_height = 1;
+	CFont* pDefaultFont = NULL;
 	int max_height = 0;
 	int max_width = 0;
+	double multiplier_width = 0;
 	TCHAR controlClassName[128];
 	CFont* oldFont;
+
+	RECT xy;
+	BOOL fResult = SystemParametersInfo(SPI_GETWORKAREA, 0, &xy, 0);
+
+	int X_max = xy.right - xy.left;
+	int Y_max = xy.bottom - xy.top;
+
 	CFont* pFont = CDefaultAppFont::GetInstance()->GetFont(DIALOG_FONT_NAME);
-	int newItemHeight = CDefaultAppFont::GetInstance()->GetItemHeight(DIALOG_FONT_NAME);
+	int newItemHeight = CDefaultAppFont::GetInstance()->GetFontSize(pFont).y;
 	CWnd* cwnd = CWnd::FromHandle(m_hWnd);
-	CDC* cdc = GetDC();
+
+
+	auto screenFont = cwnd->GetFont();
+	LOGFONT lf = {};
+	if (screenFont != NULL) {
+		LOGFONT ls_scr = {};
+		screenFont->GetLogFont(&ls_scr);
+		memcpy(&lf, &ls_scr, sizeof(ls_scr));
+	}
+	else {
+		lf.lfHeight = -11;
+		strcpy_s((char*)lf.lfFaceName, 32, "MS Sans Serif");
+	}
+	pDefaultFont = CDefaultAppFont::GetInstance()->GetScaleFont(lf);
+
+	int itemHeight = CDefaultAppFont::GetInstance()->GetFontSize(pDefaultFont).y;
+	max_height = max(max_height, itemHeight);
+
+	CDC* cdc = cwnd->GetDC();
 	CWnd* pChild;
 
-	pChild = GetWindow(GW_CHILD);
+	pChild = cwnd->GetWindow(GW_CHILD);
 	CString tempTextBuf;
+	int childCount = 0;
 	while (pChild) {
 		CFont* childFont = pChild->GetFont();
 		if (childFont == NULL) {
 			childFont = pDefaultFont;
 		}
-		int itemHeight = CDefaultAppFont::GetInstance()->MakeItemHeight(childFont);
+		else {
+			childCount++;
+		}
+		int itemHeight = CDefaultAppFont::GetInstance()->GetFontSize(childFont).y;
 		max_height = max(max_height, itemHeight);
 
 		pChild = pChild->GetNextWindow();
 	}
 
-	float multiplier_height = (float)newItemHeight / (float)max_height;
 
 
+
+	multiplier_height = (float)newItemHeight / (float)max_height;
+	multiplier_width = max(multiplier_height, multiplier_width);
+
+	if (childCount > 0) {
+		if (multiplier_height > 1) {
 
 #pragma region check max window
 
-	CWnd* wnd = CWnd::FromHandle(m_hWnd);
+			CWnd* wnd = CWnd::FromHandle(m_hWnd);
 
-	RECT rect = {};
-	wnd->GetWindowRect(&rect);
-	this->ScreenToClient(&rect);
+			RECT rect = {};
+			wnd->GetWindowRect(&rect);
 
-	float cx = (float)(rect.right - rect.left) * multiplier_height;
+			float cx = (float)(rect.right - rect.left) * multiplier_height;
 
-	float cy = (float)(rect.bottom - rect.top) * multiplier_height;
+			float cy = (float)(rect.bottom - rect.top) * multiplier_height;
 
-	int X_max = GetSystemMetrics(SM_CXSCREEN);
-	int Y_max = GetSystemMetrics(SM_CYSCREEN);
 
-	float font_multiplier_x = 1;
-	if (cx > X_max) {
-		font_multiplier_x = (float)X_max / (float)cx;
-	}
 
-	float font_multiplier_y = 1;
-	if (cy > Y_max) {
-		font_multiplier_y = (float)Y_max / (float)cy;
-	}
+			BOOL moveToCenter = FALSE;
+			float font_multiplier_x = 1;
+			if (cx > X_max) {
+				moveToCenter = TRUE;
+				font_multiplier_x = (float)X_max / (float)cx;
+			}
 
-	float font_multiplier = min(font_multiplier_x, font_multiplier_y);
-	if (font_multiplier < 1) {
-		LOGFONT logfont = {};
-		pFont->GetLogFont(&logfont);
-		float f = (float)logfont.lfHeight * font_multiplier;
-		logfont.lfHeight = f;
-		multiplier_height = multiplier_height * font_multiplier;
-		CFont* font = new CFont();
-		font->CreateFontIndirect(&logfont);
-		pScaleFont = font;
-		pFont = font;
-	}
+			float font_multiplier_y = 1;
+			if (cy > Y_max) {
+				moveToCenter = TRUE;
+				font_multiplier_y = (float)Y_max / (float)cy;
+			}
+
+			float font_multiplier = min(font_multiplier_x, font_multiplier_y);
+			if (font_multiplier < 1) {
+				LOGFONT logfont = {};
+				pFont->GetLogFont(&logfont);
+				float f = (float)logfont.lfHeight * font_multiplier;
+				logfont.lfHeight = f;
+				multiplier_height = multiplier_height * font_multiplier;
+				pFont = CDefaultAppFont::GetInstance()->GetScaleFont(logfont);
+			}
 
 
 #pragma endregion
 
+			ModifyChildrenWindow(m_hWnd, pFont, multiplier_height);
 
+			//wnd->SetFont(pFont);
 
-	list<CWnd*> wndList;
-	pChild = GetWindow(GW_CHILD);
-	while (pChild) {
+			SDesignSize sizeXY = ResizeWindow(m_hWnd, multiplier_height);
 
-		wndList.push_back(pChild);
-		pChild = pChild->GetNextWindow();
+			if (sizeXY.width > 0 && sizeXY.height > 0) {
+				RECT r;
+				cwnd->GetWindowRect(&r);
+				if ((r.left + sizeXY.width) > X_max) { moveToCenter = TRUE; }
+				if ((r.top + sizeXY.height) > Y_max) { moveToCenter = TRUE; }
+				if (moveToCenter == TRUE) {
+
+					int xPos = (GetSystemMetrics(SM_CXSCREEN) - sizeXY.width) / 2;
+					int yPos = (GetSystemMetrics(SM_CYSCREEN) - sizeXY.height) / 2;
+
+					cwnd->SetWindowPos(NULL, xPos, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				}
+			}
+
+			retDate.pFont = pFont;
+			retDate.multiplier = multiplier_height;
+		}
 	}
-
-	for (auto it = wndList.begin(); it != wndList.end(); ++it) {
-		CWnd* childWnd = *it;
-		childWnd->SetFont(pFont);
-		ResizeChildWindow(childWnd->m_hWnd, multiplier_height);
-	}
-
-	cwnd->SetFont(pFont);
-	ResizeWindow(m_hWnd, multiplier_height);
-	ReleaseDC(cdc);
+	cwnd->ReleaseDC(cdc);
+	return retDate;
 }
 
-void CDesignDialog::ResizeWindow(const HWND& source_hWnd, float multiplier)
+SDesignSize CDesignDialog::ResizeWindow(const HWND& source_hWnd, float multiplier)
 {
 	CWnd* wnd = CWnd::FromHandle(source_hWnd);
 
 	RECT rect = {};
 	wnd->GetWindowRect(&rect);
-	this->ScreenToClient(&rect);
 
 	float cx = (float)(rect.right - rect.left) * multiplier;
 
 	float cy = (float)(rect.bottom - rect.top) * multiplier;
 
-	wnd->SetWindowPos(NULL, 0, 0, cx, cy, SWP_NOMOVE |  SWP_NOZORDER);
+	SDesignSize ret;
+	ret.width = cx;
+	ret.height = cy;
+
+	wnd->SetWindowPos(NULL, 0, 0, cx, cy, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+	return ret;
 }
 
 void CDesignDialog::ResizeChildWindow(const HWND& source_hWnd, float multiplier)
