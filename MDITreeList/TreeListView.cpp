@@ -12,6 +12,8 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
+#define TVS_EX_DOUBLEBUFFER         0x0004
+
 static long StretchWidth(long nWidth, long nMeasure)
 {
 	return ((nWidth / nMeasure) + 1) * nMeasure;
@@ -124,14 +126,17 @@ int CTreeListView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	dwStyle = WS_CHILD | WS_VISIBLE | HDS_BUTTONS | HDS_HORZ;
 	m_ctrlHeader.Create(dwStyle, rcHeader, this, 0);
 	// first create the TreeCtrl. I use standard styles but you can also use your own styles or get TreeCtrl styles from the parameter
-	dwStyle = WS_CHILD | WS_VISIBLE |  TVS_DISABLEDRAGDROP | TVS_NOHSCROLL | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS;
+	dwStyle = WS_CHILD | WS_VISIBLE |  TVS_DISABLEDRAGDROP | TVS_NOHSCROLL | TVS_HASLINES | TVS_LINESATROOT | TVS_HASBUTTONS ;
 	//dwStyle = LVS_REPORT |
 	//	LVS_SINGLESEL | LVS_OWNERDRAWFIXED | WS_BORDER |
 	//	WS_TABSTOP;
 	m_List.Create(dwStyle, rcTree, this, 0);
 
+	
+	HRESULT h = TreeView_SetExtendedStyle(m_List.m_hWnd,
+		TVS_EX_DOUBLEBUFFER, TVS_EX_DOUBLEBUFFER);
 	// next create the HeaderCtrl. I use standard styles but you can also use your own styles or get HeaderCtrl styles from the parameter
-
+	//TreeView_SetExtendedStyle(m_List.m_hWnd, TVS_EX_AUTOHSCROLL, TVS_EX_AUTOHSCROLL | TVS_EX_MULTISELECT);
 	
 	return 0;
 }
@@ -457,10 +462,12 @@ void CTreeListView::SizeObjects()
 	CRect rcHeader;
 	long nOffset = m_nOffset;
 
-	UpdateColStruct();
-
 	GetClientRect(&rcBase);
 	CalculateClientRects(rcBase, rcTree, rcHeader);
+
+	UpdateColStruct();
+
+
 
 	m_ctrlHeader.SetWindowPos(&wndTop, rcHeader.left, rcHeader.top, rcHeader.Width(), rcHeader.Height(), SWP_NOZORDER);
 	m_List.SetWindowPos(&wndTop, rcTree.left, rcTree.top, rcTree.Width(), rcTree.Height(), SWP_NOZORDER);
@@ -469,7 +476,7 @@ void CTreeListView::SizeObjects()
 	long ScrollCode = nOffset;
 	ScrollCode = ((ScrollCode << 16 ) & 0x0ffff0000) + SB_THUMBPOSITION;
 	SendMessage(WM_HSCROLL, ScrollCode, 0);
-	Invalidate(FALSE);
+//	Invalidate(FALSE);
 }
 
 
