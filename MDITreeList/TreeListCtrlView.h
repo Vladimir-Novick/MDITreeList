@@ -47,6 +47,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 	virtual LRESULT DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+public:
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // debug version in TreeListCtrlView.cpp

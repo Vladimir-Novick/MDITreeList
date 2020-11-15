@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CTreeListCtrlFrame, CMDIChildWnd)
 		//    DO NOT EDIT what you see in these blocks of generated code !
 	//}}AFX_MSG_MAP
 	ON_WM_ERASEBKGND()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -80,3 +81,11 @@ void CTreeListCtrlFrame::Dump(CDumpContext& dc) const
 
 
 
+
+
+BOOL CTreeListCtrlFrame::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return FALSE;
+	//return CMDIChildWnd::OnEraseBkgnd(pDC);
+}

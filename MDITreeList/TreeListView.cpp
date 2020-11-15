@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CTreeListView, CView)
 	//}}AFX_MSG_MAP
 	ON_MESSAGE(TVMYN_INSERTITEM, OnInsertItem)
 	ON_WM_WINDOWPOSCHANGING()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /************************************
@@ -702,3 +703,11 @@ void CTreeListView::OnWindowPosChanging(WINDOWPOS* lpwndpos)
 }
 
 
+
+
+BOOL CTreeListView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return FALSE;
+//	return CView::OnEraseBkgnd(pDC);
+}

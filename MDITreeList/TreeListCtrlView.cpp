@@ -24,6 +24,7 @@ BEGIN_MESSAGE_MAP(CTreeListCtrlView, CTreeListView)
 	//{{AFX_MSG_MAP(CTreeListCtrlView)
 	ON_COMMAND(ID_HEADER, OnHeader)
 	//}}AFX_MSG_MAP
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -117,7 +118,7 @@ void CTreeListCtrlView::OnInitialUpdate()
 	hItem2 = treeCtrl.InsertItem(_T("ItemText 1.2"), 0, 1, hItem);
 	SetSubItemText(hItem2, 2, _T("Subitem 2"));
 
-	for (long i = 2; i < 150; i = i + 2)
+	for (long i = 2; i < 5; i = i + 2)
 	{
 		CString str;
 		str.Format(L"ItemText %d", i);
@@ -151,4 +152,12 @@ void CTreeListCtrlView::OnHeader()
 LRESULT CTreeListCtrlView::DefWindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return CTreeListView::DefWindowProc(message, wParam, lParam);
+}
+
+
+BOOL CTreeListCtrlView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+	return FALSE;
+	//return CTreeListView::OnEraseBkgnd(pDC);
 }

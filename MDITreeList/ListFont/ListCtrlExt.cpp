@@ -32,6 +32,8 @@ BEGIN_MESSAGE_MAP(CListCtrlExt, CListCtrl)
 	//}}AFX_MSG_MAP
 //	ON_WM_SIZING()
 ON_WM_SIZE()
+ON_WM_ERASEBKGND()
+ON_WM_NCCALCSIZE()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -39,6 +41,11 @@ END_MESSAGE_MAP()
 
 void CListCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct) 
 {
+
+	CDC* pDC;
+	pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+
+
 	TCHAR  lpBuffer[256];
 
 	LV_ITEM lvi;
@@ -75,8 +82,7 @@ void CListCtrlExt::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		lvi.cchTextMax = sizeof(lpBuffer);
 		VERIFY(GetItem(&lvi));
 
-		CDC* pDC;
-		pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+
 
 		if ( lpDrawItemStruct->itemState & ODS_SELECTED )
 		{
@@ -213,10 +219,16 @@ void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 {
 	CListCtrl::OnSize(nType, cx, cy);
 
+	CRect rb;
+
+	
+
 	double currentSize = 0;
 
 	CHeaderCtrl* pHeader = NULL;
 	pHeader = GetHeaderCtrl();
+
+
 
 	if (pHeader->m_hWnd != NULL) {
 
@@ -231,11 +243,64 @@ void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 		for (int i = 0; i < pHeader->GetItemCount(); i++)
 		{
 			int nWidth = GetColumnWidth(i);
+			
 			double  d = nWidth *= m;
 			DWORD w = d;
 			SetColumnWidth(i, w);
 		}
 	}
+	 
+	RECT rect;
+	pHeader->GetItemRect(0, &rect);
+	int headerH = rect.bottom - rect.top;
+
+	int rows = GetItemCount();
+
+	
 
 	// TODO: Add your message handler code here
+}
+
+
+BOOL CListCtrlExt::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	RECT rect;
+
+
+	GetClientRect(&rect);
+	int cy = rect.bottom;
+	int cx = rect.right;
+
+	int rows = GetItemCount();
+	if (rows == 0) {
+		return CListCtrl::OnEraseBkgnd(pDC);
+	}
+	else {
+
+		GetItemRect(rows - 1, &rect, 0);
+		CRect clearRGN;
+		clearRGN.left = rect.left;
+
+		clearRGN.top = rect.bottom;
+		clearRGN.right = rect.right;
+		clearRGN.bottom = cy;
+
+	
+
+		pDC->FillSolidRect(&clearRGN, GetBkColor());
+
+
+	}
+	return FALSE;
+}
+
+
+void CListCtrlExt::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
+{
+	// TODO: Add your message handler code here and/or call default
+	ModifyStyle(WS_HSCROLL, 0);
+
+	CListCtrl::OnNcCalcSize(bCalcValidRects, lpncsp);
 }

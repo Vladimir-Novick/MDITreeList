@@ -35,6 +35,7 @@ BEGIN_MESSAGE_MAP(CListFontView, CFormView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CFormView::OnFilePrintPreview)
 	ON_WM_CREATE()
 	ON_WM_SIZE()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -142,4 +143,13 @@ int CListFontView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 	return 0;
+}
+
+
+BOOL CListFontView::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	//return CFormView::OnEraseBkgnd(pDC);
+	return FALSE;
 }

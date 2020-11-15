@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(CListFontFrame, CMDIChildWnd)
 		//    DO NOT EDIT what you see in these blocks of generated code !
 	//}}AFX_MSG_MAP
 	ON_WM_ERASEBKGND()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -80,3 +81,12 @@ void CListFontFrame::Dump(CDumpContext& dc) const
 
 
 
+
+
+BOOL CListFontFrame::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	//return CMDIChildWnd::OnEraseBkgnd(pDC);
+	return FALSE;
+}

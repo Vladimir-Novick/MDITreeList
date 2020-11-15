@@ -58,6 +58,12 @@
     <ClCompile Include="CDlgSelectFont.cpp">
       <Filter>Source Files\ListFont</Filter>
     </ClCompile>
+    <ClCompile Include="CTreeCtrlEx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMemDC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h">
@@ -119,6 +125,12 @@
     </ClInclude>
     <ClInclude Include="CDlgSelectFont.h">
       <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="CMemDC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTreeCtrlEx.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

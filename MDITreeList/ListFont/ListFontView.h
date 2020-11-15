@@ -55,6 +55,7 @@ protected:
 public:
 
 
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 #ifndef _DEBUG  // debug version in ListFontView.cpp

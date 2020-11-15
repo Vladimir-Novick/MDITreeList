@@ -73,4 +73,5 @@ public:
 	CTreeCtrl& GetTreeCtrl();
 	void ShowHeader(bool bShow);
 	afx_msg void OnWindowPosChanging(WINDOWPOS* lpwndpos);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
