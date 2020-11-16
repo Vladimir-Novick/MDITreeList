@@ -25,6 +25,7 @@ BEGIN_MESSAGE_MAP(CTreeListCtrlView, CTreeListView)
 	ON_COMMAND(ID_HEADER, OnHeader)
 	//}}AFX_MSG_MAP
 	ON_WM_ERASEBKGND()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -160,4 +161,13 @@ BOOL CTreeListCtrlView::OnEraseBkgnd(CDC* pDC)
 	// TODO: Add your message handler code here and/or call default
 	return FALSE;
 	//return CTreeListView::OnEraseBkgnd(pDC);
+}
+
+
+void CTreeListCtrlView::OnSize(UINT nType, int cx, int cy)
+{
+
+	CTreeListView::OnSize(nType, cx, cy);
+
+	// TODO: Add your message handler code here
 }

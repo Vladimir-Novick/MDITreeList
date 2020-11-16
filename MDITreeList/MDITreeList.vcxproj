@@ -142,7 +142,6 @@
     <ClCompile Include="CDialogAbout.cpp" />
     <ClCompile Include="CDlgSelectFont.cpp" />
     <ClCompile Include="CMainFrame.cpp" />
-    <ClCompile Include="CMemDC.cpp" />
     <ClCompile Include="CTreeCtrlEx.cpp" />
     <ClCompile Include="ListFont\HeaderCtrlExt.cpp" />
     <ClCompile Include="ListFont\ListCtrlExt.cpp" />
@@ -170,7 +169,6 @@
     <ClInclude Include="CDialogAbout.h" />
     <ClInclude Include="CDlgSelectFont.h" />
     <ClInclude Include="CMainFrame.h" />
-    <ClInclude Include="CMemDC.h" />
     <ClInclude Include="CTreeCtrlEx.h" />
     <ClInclude Include="ListFont\HeaderCtrlExt.h" />
     <ClInclude Include="ListFont\ListCtrlExt.h" />

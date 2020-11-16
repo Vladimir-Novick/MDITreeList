@@ -17,6 +17,7 @@ static char THIS_FILE[] = __FILE__;
 
 CListCtrlExt::CListCtrlExt()
 {
+	
 }
 
 CListCtrlExt::~CListCtrlExt()
@@ -34,6 +35,7 @@ BEGIN_MESSAGE_MAP(CListCtrlExt, CListCtrl)
 ON_WM_SIZE()
 ON_WM_ERASEBKGND()
 ON_WM_NCCALCSIZE()
+ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -221,7 +223,7 @@ void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 
 	CRect rb;
 
-	
+	LockWindowUpdate();
 
 	double currentSize = 0;
 
@@ -250,12 +252,10 @@ void CListCtrlExt::OnSize(UINT nType, int cx, int cy)
 		}
 	}
 	 
-	RECT rect;
-	pHeader->GetItemRect(0, &rect);
-	int headerH = rect.bottom - rect.top;
 
-	int rows = GetItemCount();
 
+	
+	UnlockWindowUpdate();
 	
 
 	// TODO: Add your message handler code here
@@ -266,33 +266,6 @@ BOOL CListCtrlExt::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: Add your message handler code here and/or call default
 
-	RECT rect;
-
-
-	GetClientRect(&rect);
-	int cy = rect.bottom;
-	int cx = rect.right;
-
-	int rows = GetItemCount();
-	if (rows == 0) {
-		return CListCtrl::OnEraseBkgnd(pDC);
-	}
-	else {
-
-		GetItemRect(rows - 1, &rect, 0);
-		CRect clearRGN;
-		clearRGN.left = rect.left;
-
-		clearRGN.top = rect.bottom;
-		clearRGN.right = rect.right;
-		clearRGN.bottom = cy;
-
-	
-
-		pDC->FillSolidRect(&clearRGN, GetBkColor());
-
-
-	}
 	return FALSE;
 }
 
@@ -300,7 +273,47 @@ BOOL CListCtrlExt::OnEraseBkgnd(CDC* pDC)
 void CListCtrlExt::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 {
 	// TODO: Add your message handler code here and/or call default
-	ModifyStyle(WS_HSCROLL, 0);
 
 	CListCtrl::OnNcCalcSize(bCalcValidRects, lpncsp);
+}
+
+
+void CListCtrlExt::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: Add your message handler code here
+					   // Do not call CListCtrl::OnPaint() for painting messages
+
+	CRect headerRect;
+
+	CRect rect;
+
+	CDC MenDC;//memory ID list. 
+
+	CBitmap MemMap;
+
+	GetClientRect(&rect);
+
+	GetDlgItem(0)->GetWindowRect(&headerRect);
+
+	MenDC.CreateCompatibleDC(&dc);
+
+	MemMap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
+
+	MenDC.SelectObject(&MemMap);
+
+	MenDC.FillSolidRect(&rect, RGB(255, 255, 255));
+
+	//Call the default OnPaint () to draw the graphic on the Memory DC table  
+
+	DefWindowProc(WM_PAINT, (WPARAM)MenDC.m_hDC, (LPARAM)0);
+
+	//output  
+
+	dc.BitBlt(0, headerRect.Height(), rect.Width(), rect.Height(), &MenDC, 0, headerRect.Height(), SRCCOPY);
+
+	MenDC.DeleteDC();
+
+	MemMap.DeleteObject();
+
 }
