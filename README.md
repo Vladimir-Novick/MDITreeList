@@ -1,8 +1,10 @@
 # MDITreeList
 
 MDI with tree list view.
+
+
 Custom draw dynamically generated CListCtrl, CTreeCtrl with dynamically resized font.
-Auto-resize CList Control.
+Auto-resize CList Control. Non flicker Controls.
 Describes, how to dynamically change the font size of a dialog when it starts
 
 ##  Create MDI View from Dialog forms
