@@ -160,7 +160,7 @@ void CTreeListView::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 	m_List.GetClientRect(&rc);
 
 	long	nWidthPage	= abs(rc.right - rc.left);	// One Page
-	long	nWidthLine	= 6;						// Microsofts Linestep in a CListCtrl, got from MFC - sourcecode
+	long	nWidthLine	= 6;						// Microsofts Linestep in a CListCtrlEx, got from MFC - sourcecode
 	long	nCurPos		= GetScrollPos(SB_HORZ);	// current scrollingposition
 	long	nPrevPos	= nCurPos;;					// save current scrolling position for calculating
 	int		nScrollMin;								// minimum scrolling value

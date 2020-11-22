@@ -141,7 +141,10 @@
     <ClCompile Include="CChildFrame.cpp" />
     <ClCompile Include="CDialogAbout.cpp" />
     <ClCompile Include="CDlgSelectFont.cpp" />
+    <ClCompile Include="CHeaderCtrlEx.cpp" />
+    <ClCompile Include="CListCtrlEx.cpp" />
     <ClCompile Include="CMainFrame.cpp" />
+    <ClCompile Include="CMDIFrameWndEx.cpp" />
     <ClCompile Include="CTreeCtrlEx.cpp" />
     <ClCompile Include="ListFont\HeaderCtrlExt.cpp" />
     <ClCompile Include="ListFont\ListCtrlExt.cpp" />
@@ -168,7 +171,10 @@
     <ClInclude Include="CChildFrame.h" />
     <ClInclude Include="CDialogAbout.h" />
     <ClInclude Include="CDlgSelectFont.h" />
+    <ClInclude Include="CHeaderCtrlEx.h" />
+    <ClInclude Include="CListCtrlEx.h" />
     <ClInclude Include="CMainFrame.h" />
+    <ClInclude Include="CMDIFrameWndEx.h" />
     <ClInclude Include="CTreeCtrlEx.h" />
     <ClInclude Include="ListFont\HeaderCtrlExt.h" />
     <ClInclude Include="ListFont\ListCtrlExt.h" />

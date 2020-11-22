@@ -13,7 +13,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CListCtrlEx
+// CListCtrl
 
 CListCtrlExt::CListCtrlExt()
 {

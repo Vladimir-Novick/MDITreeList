@@ -61,6 +61,13 @@
     <ClCompile Include="CTreeCtrlEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CMDIFrameWndEx.cpp" />
+    <ClCompile Include="CHeaderCtrlEx.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="CListCtrlEx.cpp">
+      <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CAboutDlg.h">
@@ -125,6 +132,13 @@
     </ClInclude>
     <ClInclude Include="CTreeCtrlEx.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMDIFrameWndEx.h" />
+    <ClInclude Include="CListCtrlEx.h">
+      <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="CHeaderCtrlEx.h">
+      <Filter>Header Files\ListFont</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
