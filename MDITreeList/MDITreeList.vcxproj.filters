@@ -61,12 +61,17 @@
     <ClCompile Include="CTreeCtrlEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CMDIFrameWndEx.cpp" />
     <ClCompile Include="CHeaderCtrlEx.cpp">
       <Filter>Source Files\ListFont</Filter>
     </ClCompile>
     <ClCompile Include="CListCtrlEx.cpp">
       <Filter>Source Files\ListFont</Filter>
+    </ClCompile>
+    <ClCompile Include="CToolBarEx.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMDIFrameWndEx.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,12 +138,17 @@
     <ClInclude Include="CTreeCtrlEx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CMDIFrameWndEx.h" />
     <ClInclude Include="CListCtrlEx.h">
       <Filter>Header Files\ListFont</Filter>
     </ClInclude>
     <ClInclude Include="CHeaderCtrlEx.h">
       <Filter>Header Files\ListFont</Filter>
+    </ClInclude>
+    <ClInclude Include="CToolBarEx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CMDIFrameWndEx.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

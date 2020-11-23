@@ -7,6 +7,13 @@ Custom draw dynamically generated CListCtrl, CTreeCtrl with dynamically resized 
 Auto-resize CList Control. Non flicker Controls.
 Describes, how to dynamically change the font size of a dialog when it starts
 
+## Not flicker controls
+
+CToolBarEx -  Control bars that have a row of bitmapped buttons and optional separators.
+CListCtrlEx - Encapsulates the functionality of a "list view control," 
+              which displays a collection of items each consisting of an icon (from an image list) and a label.
+CHeaderCtrlEx - Provides the functionality of the Windows common header control.
+
 ##  Create MDI View from Dialog forms
 
 How to create MDI View from Dialog forms.
