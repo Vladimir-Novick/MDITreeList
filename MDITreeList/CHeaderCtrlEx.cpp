@@ -46,7 +46,7 @@ void CHeaderCtrlEx::OnPaint()
 
     MenDC.SelectObject(&MemMap);
 
-    MenDC.FillSolidRect(&rect, RGB(240, 240, 240));
+    MenDC.FillSolidRect(&rect, dc.GetBkColor());
 
 
     DefWindowProc(WM_PAINT, (WPARAM)MenDC.m_hDC, (LPARAM)0);

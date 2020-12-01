@@ -60,7 +60,7 @@ void CTreeCtrlEx::OnPaint()
 
     MenDC.SelectObject(&MemMap);
 
-    MenDC.FillSolidRect(&rect, RGB(255, 255, 255));
+    MenDC.FillSolidRect(&rect, dc.GetBkColor());
 
     //Call the default OnPaint () to draw the graphic on the Memory DC table  
 

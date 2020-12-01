@@ -1,5 +1,5 @@
 // ClientWnd.cpp : implementation file
-//
+//  Set custom Color for MDI/SDI background
 
 #include "stdafx.h"
 #include "ClientWnd.h"

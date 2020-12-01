@@ -49,7 +49,7 @@ void CListCtrlEx::OnPaint()
 
     MenDC.SelectObject(&MemMap);
 
-    MenDC.FillSolidRect(&rect, RGB(255, 255, 255));
+    MenDC.FillSolidRect(&rect, dc.GetBkColor());
 
     DefWindowProc(WM_PAINT, (WPARAM)MenDC.m_hDC, (LPARAM)0);
 
