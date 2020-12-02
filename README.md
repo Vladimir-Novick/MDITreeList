@@ -14,6 +14,46 @@ CListCtrlEx - Encapsulates the functionality of a "list view control,"
               which displays a collection of items each consisting of an icon (from an image list) and a label.
 CHeaderCtrlEx - Provides the functionality of the Windows common header control.
 
+##  Double Buffer Implementation
+
+OnPaint event function:
+
+
+		void CMyDraw::OnPaint()
+		{
+		   CPaintDC dc(this); // device context for painting
+							   // TODO: Add your message handler code here
+							   // Do not call CTreeCtrl::OnPaint() for painting messages
+
+			CRect rect;
+			CDC MenDC;//memory ID list. 
+			CBitmap MemMap;
+			GetClientRect(&rect);
+			MenDC.CreateCompatibleDC(&dc);
+			MemMap.CreateCompatibleBitmap(&dc, rect.Width(), rect.Height());
+			MenDC.SelectObject(&MemMap);
+			MenDC.FillSolidRect(&rect, dc.GetBkColor());
+
+			// draw the graphic on the Memory DC 
+
+			............
+
+			//output  
+
+			dc.BitBlt(0, 0, rect.Width(), rect.Height(), &MenDC, 0, 0, SRCCOPY);
+
+			MenDC.DeleteDC();
+			MemMap.DeleteObject();
+		}
+
+OnEraseBkgnd event
+
+			BOOL CMyDraw::OnEraseBkgnd(CDC* pDC)
+			{
+			  return FALSE;
+			}
+
+
 ##  Create MDI View from Dialog forms
 
 How to create MDI View from Dialog forms.
